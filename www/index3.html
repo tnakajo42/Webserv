@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+</head>
+<body>
+    <h2>Upload an Image (not woking)</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
+    <p id="status"></p>
+    <p>curl -X POST --data-binary @image.jpg http://localhost:8082/uploads</p>
+    <p>is working</p>
+
+    <h2>Delete an Image</h2>
+    <input type="text" id="deleteInput" placeholder="Enter filename to delete">
+    <button onclick="deleteFile()">Delete</button>
+    <p id="deleteStatus"></p>
+
+    <script>
+        function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                document.getElementById("status").innerText = "Please select a file.";
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file, file.name);
+
+            console.log("why?");
+            fetch("/uploads", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("status").innerText = data;
+            })
+            .catch(error => {
+                document.getElementById("status").innerText = "Upload failed!";
+                console.error(error);
+            });
+        }
+
+        function deleteFile() {
+            const filename = document.getElementById("deleteInput").value;
+            if (!filename) {
+                document.getElementById("deleteStatus").innerText = "Please enter a filename.";
+                return;
+            }
+
+            fetch("/uploads/" + filename, {
+                method: "DELETE"
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("deleteStatus").innerText = data;
+            })
+            .catch(error => {
+                document.getElementById("deleteStatus").innerText = "Delete failed!";
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>

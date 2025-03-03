@@ -1,13 +1,13 @@
 NAME = webserv
-SRC = src/main.cpp src/Server.cpp src/RequestHandler.cpp
+SRC = src/main.cpp src/Server.cpp src/RequestHandler.cpp src/ConfigParser.cpp
 OBJ = $(SRC:.cpp=.o)
-CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJ)
 
 clean:
 	rm -f $(OBJ)

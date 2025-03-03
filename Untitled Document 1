@@ -1,0 +1,37 @@
+
+
+server {
+    listen 80;                   # Listen on port 80
+    server_name mysite.com;       # Domain name
+
+    error_page 404 /errors/404.html;  # Custom 404 page
+
+    client_max_body_size 10M;     # Limit request body size
+
+    location / {
+        root /var/www/html;       # Serve static files from here
+        index index.html;         # Default file if directory is requested
+    }
+
+    location /upload {
+        allowed_methods POST;      # Only POST requests allowed
+        upload_store /var/www/uploads;  # Save uploaded files here
+    }
+
+    location /api {
+        allowed_methods GET POST;
+        cgi_pass /usr/bin/python3;  # Pass requests to a Python script
+    }
+}
+
+
+port=8080
+host=127.0.0.1
+root=/var/www/html
+index=index.html
+error_page_404=/errors/404.html
+client_max_body_size=1000000
+cgi_python=/usr/bin/python3
+upload_dir=/var/www/uploads
+allowed_methods=GET,POST,DELETE
+

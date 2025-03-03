@@ -7,7 +7,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-class RequestHandler {
+class RequestHandler
+{
 public:
-    static void handle(int client_socket);
+	static void handle(int client_socket);
 };

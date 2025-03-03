@@ -4,15 +4,17 @@
 #include <string>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "RequestHandler.hpp"
 
-class Server {
-private:
-    int server_socket;
-    struct sockaddr_in server_addr;
+class Server
+{
+	private:
+		int 				server_socket;
+		struct sockaddr_in	server_addr;
 
-public:
-    Server(int port);
-    ~Server();
-    void run();
+	public:
+		Server(int port);
+		~Server();
+		void run();
 };

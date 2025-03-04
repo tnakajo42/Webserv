@@ -28,11 +28,10 @@
             const formData = new FormData();
             formData.append("file", file, file.name);
 
-            fetch("/uploads", { method: "POST", body: formData })
-            // fetch("/uploads", {
-            //     method: "POST",
-            //     body: formData
-            // })
+            fetch("/uploads", {
+                method: "POST",
+                body: formData
+            })
             .then(response => response.text())
             .then(data => {
                 document.getElementById("status").innerText = data;

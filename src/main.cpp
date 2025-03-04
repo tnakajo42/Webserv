@@ -6,12 +6,13 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:12:06 by tnakajo           #+#    #+#             */
-/*   Updated: 2025/03/03 15:40:27 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:19:25 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 #include "../include/ConfigParser.hpp"
+#include "../include/LocationConfig.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -30,10 +31,15 @@ int	main(int ac, char **av)
 			configFile.displayConfig();
 			std::map<std::string, std::string>	configResults;
 			configResults = configFile.getGlobalSettings();
-			std::istringstream		ss(configResults["port"]);
-			int port;
-			ss >> port;
-			Server	server(port);
+			LocationConfig	local(configResults);
+			// std::istringstream		ss(configResults["port"]);
+			// int port;
+			// ss >> port;
+			// std::istringstream		ss1(configResults["client_max_body_size"]);
+			// int	maxSize;
+			// ss1 >> maxSize;
+			
+			Server	server(local._port);
 			server.run();
 		}
 		catch(const std::exception& e)
@@ -44,7 +50,8 @@ int	main(int ac, char **av)
 	}
 	else
 	{
-		Server	server(8082);//configfile 1st line
+		LocationConfig	local;
+		Server	server(local._port);//configfile 1st line
 		server.run();
 	}
 	return 0;

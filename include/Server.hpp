@@ -6,8 +6,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "RequestHandler.hpp"
+#include "LocationConfig.hpp"
 
-class Server
+class Server	:	public LocationConfig
 {
 	private:
 		int 				server_socket;

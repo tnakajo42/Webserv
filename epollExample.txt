@@ -1,0 +1,80 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <sys/epoll.h>
+
+#define PORT 8080
+#define MAX_EVENTS 10
+#define BUFFER_SIZE 1024
+
+int main() {
+    int server_fd, new_client, epoll_fd;
+    struct sockaddr_in address;
+    socklen_t addrlen = sizeof(address);
+    char buffer[BUFFER_SIZE] = {0};
+
+    // Create a socket
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(PORT);
+
+    // Bind and listen
+    bind(server_fd, (struct sockaddr*)&address, sizeof(address));
+    listen(server_fd, SOMAXCONN);
+
+    // Create an epoll instance
+    epoll_fd = epoll_create1(0);
+    if (epoll_fd == -1) {
+        perror("epoll_create1");
+        return 1;
+    }
+
+    // Add the server socket to epoll
+    struct epoll_event event;
+    event.events = EPOLLIN;
+    event.data.fd = server_fd;
+    epoll_ctl(epoll_fd, EPOLL_CTL_ADD, server_fd, &event);
+
+    std::cout << "Server is running on port " << PORT << "..." << std::endl;
+
+    struct epoll_event events[MAX_EVENTS];
+
+    while (true) {
+        int num_events = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
+
+        for (int i = 0; i < num_events; ++i) {
+            int event_fd = events[i].data.fd;
+
+            if (event_fd == server_fd) {
+                // New client connection
+                new_client = accept(server_fd, (struct sockaddr*)&address, &addrlen);
+                std::cout << "New client connected: " << new_client << std::endl;
+
+                struct epoll_event client_event;
+                client_event.events = EPOLLIN;
+                client_event.data.fd = new_client;
+                epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_client, &client_event);
+            } else {
+                // Client sent data
+                int bytes_read = read(event_fd, buffer, BUFFER_SIZE);
+                
+                if (bytes_read <= 0) {
+                    std::cout << "Client disconnected: " << event_fd << std::endl;
+                    close(event_fd);
+                    epoll_ctl(epoll_fd, EPOLL_CTL_DEL, event_fd, nullptr);
+                } else {
+                    std::cout << "Received: " << buffer << " from client " << event_fd << std::endl;
+                    send(event_fd, buffer, bytes_read, 0);
+                }
+            }
+        }
+    }
+
+    close(server_fd);
+    close(epoll_fd);
+    return 0;
+}

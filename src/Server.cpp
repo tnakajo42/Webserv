@@ -124,12 +124,11 @@ void Server::handleClientRequest(int clientFd)
 	std::cout << "Sending response:\n" << httpResponse << std::endl;
 	std::string path = request.getPath();
 	if (request.getMethod() == "GET")
-		RequestHandler::handle_get(path, clientFd);
+		RequestHandler::handle_get(path, clientFd, _config);
 	if (request.getMethod() == "POST")
-		RequestHandler::handle_post(path, clientFd, client->getRequest(), client->gettotalRecevied());
+		RequestHandler::handle_post(path, clientFd, client->getRequest(), client->gettotalRecevied(), _config);
 	if (request.getMethod() == "DELETE")
-		RequestHandler::handle_delete(path, clientFd);
-	// client->sendData(httpResponse);
+		RequestHandler::handle_delete(path, clientFd, _config);
 	std::cout << "Response sent. Server should keep running..." << httpResponse << std::endl;  // Debugging
 }
 

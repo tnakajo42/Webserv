@@ -22,6 +22,7 @@ private:
 */
 
 #include "../include/RequestHandler.hpp"
+#include "../include/ConfigParser.hpp"
 
 std::string read_file(const std::string& filepath)
 {
@@ -48,66 +49,68 @@ std::string generate_response(int status_code, const std::string& content, const
 	return response.str();
 }
 
-void RequestHandler::handle(int client_socket)
-{
-	char	buffer[8192];//why a buffer is needed?
-	std::string request;
-    int bytes_received;
-    size_t total_received = 0;
+// void RequestHandler::handle(int client_socket)
+// {
+// 	char	buffer[8192];//why a buffer is needed?
+// 	std::string request;
+//     int bytes_received;
+//     size_t total_received = 0;
 	
-	// Read the full request headers
-    while ((bytes_received = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
-        buffer[bytes_received] = '\0';
-        request.append(buffer, bytes_received);
-        total_received += bytes_received;
-        if (request.find("\r\n\r\n") != std::string::npos) {
-            break;
-        }
-        if (total_received > 16384) { // Prevent infinite loop
-            std::string response = generate_response(400, "Bad Request: Headers too large", "text/plain");
-            send(client_socket, response.c_str(), response.size(), 0);
-            close(client_socket);
-            return;
-        }
-    }
+// 	// Read the full request headers
+//     while ((bytes_received = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
+//         buffer[bytes_received] = '\0';
+//         request.append(buffer, bytes_received);
+//         total_received += bytes_received;
+//         if (request.find("\r\n\r\n") != std::string::npos) {
+//             break;
+//         }
+//         if (total_received > 16384) { // Prevent infinite loop
+//             std::string response = generate_response(400, "Bad Request: Headers too large", "text/plain");
+//             send(client_socket, response.c_str(), response.size(), 0);
+//             close(client_socket);
+//             return;
+//         }
+//     }
 
-	if (bytes_received <= 0) {
-		close(client_socket);
-		return ;
-	}
+// 	if (bytes_received <= 0) {
+// 		close(client_socket);
+// 		return ;
+// 	}
 
-	// buffer[bytes_received] = '\0';//what is bytes_received is somewhere in the middle of the str, is not a problem to NULL it between?
-		// To terminate the string properly for safe handling in C++ functions.
-	// Parse method, path, and version
-    std::istringstream request_stream(request);
-    std::string method, path, version;
-    request_stream >> method >> path >> version;
+// 	// buffer[bytes_received] = '\0';//what is bytes_received is somewhere in the middle of the str, is not a problem to NULL it between?
+// 		// To terminate the string properly for safe handling in C++ functions.
+// 	// Parse method, path, and version
+//     std::istringstream request_stream(request);
+//     std::string method, path, version;
+//     request_stream >> method >> path >> version;
 
-	// Prevent directory traversal attacks
-	if (path.find("..") != std::string::npos) {
-        std::string response = generate_response(403, "Forbidden", "text/plain");
-        send(client_socket, response.c_str(), response.size(), 0);
-        close(client_socket);
-        return;
-    }
+// 	// Prevent directory traversal attacks
+// 	if (path.find("..") != std::string::npos) {
+//         std::string response = generate_response(403, "Forbidden", "text/plain");
+//         send(client_socket, response.c_str(), response.size(), 0);
+//         close(client_socket);
+//         return;
+//     }
 
-	if (method == "GET")
-        handle_get(path, client_socket);
-    else if (method == "POST")
-        handle_post(path, client_socket, request, total_received);
-    else if (method == "DELETE")
-        handle_delete(path, client_socket);
-    else {
-        std::string response = generate_response(405, "Only Allowed GET/POST/DELETE", "text/plain");
-        send(client_socket, response.c_str(), response.size(), 0);
-    }
-    close(client_socket);
-}
+// 	if (method == "GET")
+//         handle_get(path, client_socket);
+//     else if (method == "POST")
+//         handle_post(path, client_socket, request, total_received);
+//     else if (method == "DELETE")
+//         handle_delete(path, client_socket);
+//     else {
+//         std::string response = generate_response(405, "Only Allowed GET/POST/DELETE", "text/plain");
+//         send(client_socket, response.c_str(), response.size(), 0);
+//     }
+//     close(client_socket);
+// }
 
-void RequestHandler::handle_get(std::string& path, int client_socket)
+void RequestHandler::handle_get(std::string& path, int client_socket, ConfigParser& config)
 {
+	// ConfigParser settings("default.config");
 	if (path == "/")
-		path = "/index5.html";//why path should equal "/"//4th line******CONFIG
+		path = config.getIndex();
+	// path = "/index.html";//why path should equal "/"//4th line******CONFIG
 
 	std::string filepath = "www" + path;
 	std::string content = read_file(filepath);
@@ -120,8 +123,9 @@ void RequestHandler::handle_get(std::string& path, int client_socket)
 	// Sends data back to the client through the socket.
 }
 
-void RequestHandler::handle_post(const std::string& path, int client_socket, const std::string& initial_request, size_t initial_received) {
-    if (path != "/uploads") {
+void RequestHandler::handle_post(const std::string& path, int client_socket, const std::string& initial_request, size_t initial_received, ConfigParser& config) {
+    (void)config;
+	if (path != "/uploads") {
         std::string response = generate_response(404, "Not Found", "text/plain");
         send(client_socket, response.c_str(), response.size(), 0);
         return;
@@ -300,8 +304,9 @@ void RequestHandler::handle_post(const std::string& path, int client_socket)
 }
 */
 
-void RequestHandler::handle_delete(const std::string& path, int client_socket) {
-    std::string filepath = "www" + path;
+void RequestHandler::handle_delete(const std::string& path, int client_socket, ConfigParser& config) {
+    (void)config;
+	std::string filepath = "www" + path;
 
     if (remove(filepath.c_str()) == 0) {
         std::string response = generate_response(200, "Image deleted successfully", "text/plain");

@@ -24,8 +24,8 @@ class Server
 		std::map<int, Client*>	_clients; // Store clients by file descriptor
 		Router					_router;
 		// Logger					_logger;
-		ConfigParser			_config;
 		socklen_t				_addrlen;
+		ConfigParser			_config;
 
 		void setupServer();
 		void handleNewConnection();

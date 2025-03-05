@@ -6,13 +6,14 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:12:06 by tnakajo           #+#    #+#             */
-/*   Updated: 2025/03/05 12:09:27 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:48:17 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 #include "../include/ConfigParser.hpp"
 #include "../include/LocationConfig.hpp"
+#include "../include/Logger.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -57,6 +58,8 @@ bool	startConfig(char *configFileName)
 
 int	main(int ac, char **av)
 {
+	Logger::init("server.log");
+	Logger::log("Server started"); // Write a log message
 	if (ac > 2)
 		return 1;
 	if (ac == 2)
@@ -69,6 +72,7 @@ int	main(int ac, char **av)
 		if (!withoutConfig())
 			return 1;
 	}
+	Logger::close();
 	return 0;
 }
 

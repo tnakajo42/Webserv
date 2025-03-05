@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:46:50 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/04 20:50:28 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:45:05 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,17 @@
 
 #include <string>
 #include <fstream>
-#include "Server.hpp"
 
 class Logger
 {
 	private:
-		std::ofstream	_logFile;
-		
-	public:
-		Logger();
-		Logger(const std::string &filename);
-		~Logger();
+		static std::ofstream _logFile;
 
-		void log(const std::string &message);
+	public:
+		static void init(const std::string &filename);
+		static void log(const std::string &message);
+		static void close();
 };
 
 #endif
+

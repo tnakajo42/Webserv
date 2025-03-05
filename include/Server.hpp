@@ -12,6 +12,8 @@
 #include "Router.hpp"
 #include "Logger.hpp"
 #include "ConfigParser.hpp"
+#include "RequestHandler.hpp"
+#include "Logger.hpp"
 
 #define MAX_EVENTS 10
 

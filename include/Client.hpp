@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:22:05 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 16:13:25 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:12:14 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ class Client
 		int			_fd;
 		std::string	_request;
 		size_t		_totalRecevied;
-		// char		_buffer[BUFFER_SIZE];
 
 	public:
 		Client(int fd);

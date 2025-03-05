@@ -1,6 +1,4 @@
 #include "../include/Server.hpp"
-#include "../include/RequestHandler.hpp"
-
 
 Server::Server(const std::string& configPath) : _config(configPath)
 {
@@ -10,13 +8,26 @@ Server::Server(const std::string& configPath) : _config(configPath)
 void	Server::setupServer()
 {
 	_serverFd = socket(AF_INET, SOCK_STREAM, 0);
+	if (_serverFd < 0)
+	{
+		Logger::log("Failed: SOCKET!");
+		return;
+	}
 	_address.sin_family = AF_INET;
 	_address.sin_port = htons(_config.getPort());
 	_address.sin_addr.s_addr = INADDR_ANY;
 	_addrlen = sizeof(_address);
 	
-	bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address));
-	listen(_serverFd, 10);
+	if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
+	{
+		Logger::log("Failed: BIND!");
+		return;
+	}
+	if (listen(_serverFd, 10) < 0)
+	{
+		Logger::log("Failed: LISTEN!");
+		return;
+	}
 
 	_epollFd = epoll_create(1024);
 
@@ -25,7 +36,10 @@ void	Server::setupServer()
 	event.data.fd = _serverFd;
 	epoll_ctl(_epollFd, EPOLL_CTL_ADD, _serverFd, &event);
 
-	std::cout << "Server started on port " << _config.getPort() << std::endl;
+	std::ostringstream	oss;
+	oss << "Server started on port " << _config.getPort() << std::endl;
+	Logger::log(oss.str());
+	std::cout << oss.str() << std::endl;
 }
 
 Server::~Server()
@@ -58,7 +72,6 @@ void Server::handleEvents()
 		if (eventFd == _serverFd)
 		{
 			acceptClient();
-			// handleClientRequest(eventFd);
 		}
 		else
 		{
@@ -68,7 +81,10 @@ void Server::handleEvents()
 			else
 			{
 				handleClientRequest(client->getFd());
-				std::cout << "Handling request for client " << client->getFd() << std::endl;
+				std::ostringstream oss;
+				oss << "Handling request for client " << client->getFd();
+				Logger::log(oss.str());
+				std::cout << oss.str() << std::endl;
 			}
 		}
 	}
@@ -76,15 +92,18 @@ void Server::handleEvents()
 
 void Server::acceptClient()
 {
-	// std::cout << "here1133333\n" ;
 	int newFd = accept(_serverFd, (struct sockaddr*)&_address, &_addrlen);
-	// int newFd = accept(_serverFd, NULL, NULL);
+
 	if (newFd < 0)
-    {
-        std::cerr << "accept." << std::endl;
-        return;
-    }
-    std::cout << "Accepted client with fd: " << newFd << std::endl;
+	{
+		Logger::log("Failed: ACCEPT!");
+		std::cerr << "accept." << std::endl;
+		return;
+	}
+	std::ostringstream oss;
+	oss << "Accepted client with fd: " << newFd;;
+	Logger::log(oss.str());
+	std::cout << "Accepted client with fd: " << newFd << std::endl;
 
 	Client* newClient = new Client(newFd);
 	_clients[newFd] = newClient;
@@ -103,17 +122,22 @@ void Server::removeClient(int fd)
 		epoll_ctl(_epollFd, EPOLL_CTL_DEL, fd, NULL);
 		delete _clients[fd];
 		_clients.erase(fd);
+		std::ostringstream oss;
+		oss << "Client " << fd << " removed.";
+		Logger::log(oss.str());
 		std::cout << "Client " << fd << " removed." << std::endl;
 	}
 }
 
 void Server::handleClientRequest(int clientFd)
 {
-	// std::cout << "here\n" ;
 	Client* client = _clients[clientFd];
 	client->readData();
 	std::string requestData = client->getRequest(); // Get request from client
 	
+	std::ostringstream oss;
+	oss << "Raw HTTP Request from client " << clientFd << ":\n" << requestData;
+	Logger::log(oss.str());
 	std::cout << "Raw HTTP Request from client " << clientFd << ":\n" << requestData << std::endl;
 
 	Request request;
@@ -121,7 +145,11 @@ void Server::handleClientRequest(int clientFd)
 
 	Response response = _router.routeRequest(request);  // Route the request
 	std::string httpResponse = response.buildResponse();
+	std::ostringstream oss1;
+	oss1 << "Sending response:\n" << httpResponse;
+	Logger::log(oss1.str());
 	std::cout << "Sending response:\n" << httpResponse << std::endl;
+
 	std::string path = request.getPath();
 	if (request.getMethod() == "GET")
 		RequestHandler::handle_get(path, clientFd, _config);
@@ -129,77 +157,8 @@ void Server::handleClientRequest(int clientFd)
 		RequestHandler::handle_post(path, clientFd, client->getRequest(), client->gettotalRecevied(), _config);
 	if (request.getMethod() == "DELETE")
 		RequestHandler::handle_delete(path, clientFd, _config);
+	std::ostringstream oss2;
+	oss2 << "Response sent. Server should keep running..." << httpResponse;
+	Logger::log(oss2.str());
 	std::cout << "Response sent. Server should keep running..." << httpResponse << std::endl;  // Debugging
 }
-
-
-// Server::Server(int port)
-// {
-// 	_addrLen = sizeof(_serverAddr);
-// 	//Create a socket
-// 	_serverFd = socket(AF_INET, SOCK_STREAM, 0);
-// 	if (_serverFd == -1)
-// 	{
-// 		std::cerr << "Socket creation failed" << std::endl;
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	_serverAddr.sin_family = AF_INET;
-// 	_serverAddr.sin_addr.s_addr = INADDR_ANY;
-// 	_serverAddr.sin_port = htons(port);
-
-// 	//Bind
-// 	if (bind(_serverFd, (struct sockaddr*)&_serverAddr, sizeof(_serverAddr)) < 0)
-// 	{
-// 		std::cerr << "Binding failed" << std::endl;
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	//Listen
-// 	if (listen(_serverFd, SOMAXCONN) < 0)
-// 	{
-// 		std::cerr << "Listening failed" << std::endl;
-// 		exit(EXIT_FAILURE);
-// 	}
-
-//     // Create an epoll instance
-// 	_epollFd = epoll_create1(0);
-// 	if (_epollFd == -1)
-// 	{
-// 		std::cerr << "epoll_create1" << std::endl;
-//         exit(EXIT_FAILURE);
-// 	}
-
-//     // Add the server socket to epoll
-// 	_event.events = EPOLLIN;
-// 	_event.data.fd = _serverFd;
-// 	epoll_ctl(_epollFd, EPOLL_CTL_ADD, _serverFd, &_event);	
-
-// 	std::cout << "Server is running on port " << port << std::endl;
-// }
-
-// Server::~Server()
-// {
-// 	close(_serverFd);//wher it open?
-// }
-
-// void Server::run()
-// {
-// 	while (true)//when it becomes false?
-// 	{
-// 		int	numEvents = epoll_wait(_epollFd, _events, MAX_EVENTS, -1);
-// 		for (int i = 0; i < numEvents; ++i)
-// 		{
-// 			int	eventFd = _events[i].data.fd;
-
-// 			if (eventFd == _serverFd)
-// 			{
-// 				//new client
-// 				_newClient = accept(_serverFd, (struct sockaddr*)&_serverAddr, )
-// 			}
-// 		}
-// 		int client_socket = accept(_serverFd, NULL, NULL);//why use accept and what it returns?
-// 		if (client_socket >= 0)
-// 			RequestHandler::handle(client_socket);
-// 	}
-// }

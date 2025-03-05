@@ -1,8 +1,9 @@
-NAME = webserv
-SRC = src/main.cpp src/Server.cpp src/RequestHandler.cpp src/ConfigParser.cpp src/LocationConfig.cpp
-OBJ = $(SRC:.cpp=.o)
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+NAME		=	webserv
+SRC			=	src/main.cpp src/Server.cpp src/RequestHandler.cpp src/ConfigParser.cpp src/LocationConfig.cpp \
+				src/Client.cpp src/CGIHandler.cpp src/Logger.cpp src/Request.cpp src/Response.cpp src/Router.cpp
+OBJ			=	$(SRC:.cpp=.o)
+CXX			=	c++
+CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 

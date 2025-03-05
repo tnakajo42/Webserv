@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:10:54 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/03 14:17:34 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:00:44 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,20 @@
 #include <sstream>
 #include <vector>
 
-class	ConfigParser
+class ConfigParser
 {
 	private:
-		std::map<std::string, std::string>		_globalSettings;
-		std::string								_filename;
+		std::map<std::string, std::string> _settings;
+	
 	public:
-		ConfigParser(std::string& filename);
-		void				parse();
-		void				displayConfig();
-
-		std::map<std::string, std::string>&	getGlobalSettings();
+		ConfigParser(const std::string& configPath);
+		~ConfigParser();
+		int getPort() const;
+		std::string getHost() const;
+		std::string getRoot() const;
+		std::string getIndex() const;
+		std::string getErrorPage() const;
+		int getbodySize() const;
+		std::string getCgiPath() const;
+		std::string getUploadDir() const;
 };

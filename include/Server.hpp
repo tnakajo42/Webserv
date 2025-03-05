@@ -1,21 +1,45 @@
-#pragma once
+#ifndef SERVER_HPP
+#define SERVER_HPP
 
 #include <iostream>
-#include <string>
+#include <vector>
+#include <map>
+#include <sys/socket.h>
 #include <netinet/in.h>
+#include <sys/epoll.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include "RequestHandler.hpp"
-#include "LocationConfig.hpp"
+#include "Client.hpp"
+#include "Router.hpp"
+#include "Logger.hpp"
+#include "ConfigParser.hpp"
 
-class Server	:	public LocationConfig
+#define MAX_EVENTS 10
+
+class Server
 {
 	private:
-		int 				server_socket;
-		struct sockaddr_in	server_addr;
+		int						_serverFd;
+		int						_epollFd;
+		struct sockaddr_in		_address;
+		std::map<int, Client*>	_clients; // Store clients by file descriptor
+		Router					_router;
+		// Logger					_logger;
+		ConfigParser			_config;
+		socklen_t				_addrlen;
+
+		void setupServer();
+		void handleNewConnection();
+		void handleClientRequest(int clientFd);
 
 	public:
-		Server(int port);
+		Server(const std::string& configPath);
 		~Server();
-		void run();
+
+		void					start();
+		void					handleEvents();
+		void					acceptClient();
+		void					removeClient(int fd);
 };
+
+#endif // SERVER_HPP
+

@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:14:26 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/03 19:09:15 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:34:00 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ class	LocationConfig
 
 		LocationConfig();
 		LocationConfig(std::map<std::string, std::string>& globalSettings);
-		~LocationConfig();
+		virtual ~LocationConfig();
 
 };

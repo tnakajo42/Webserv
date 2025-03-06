@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:10:54 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 12:00:44 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:18:51 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include <sstream>
 #include <vector>
+#include <arpa/inet.h>  // inet_pton
+#include <cstring>      // strerror
+#include <cerrno>
+#include <cstdlib>
 
 class ConfigParser
 {
@@ -29,7 +34,7 @@ class ConfigParser
 		ConfigParser(const std::string& configPath);
 		~ConfigParser();
 		int getPort() const;
-		std::string getHost() const;
+		struct in_addr getHost() const;
 		std::string getRoot() const;
 		std::string getIndex() const;
 		std::string getErrorPage() const;

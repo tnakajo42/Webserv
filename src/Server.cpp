@@ -11,22 +11,22 @@ void	Server::setupServer()
 	if (_serverFd < 0)
 	{
 		Logger::log("Failed: SOCKET!");
-		return;
+		throw std::runtime_error("Error: Socket FT.");
 	}
 	_address.sin_family = AF_INET;
 	_address.sin_port = htons(_config.getPort());
-	_address.sin_addr.s_addr = INADDR_ANY;
+	_address.sin_addr = _config.getHost();
 	_addrlen = sizeof(_address);
 	
 	if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
 	{
 		Logger::log("Failed: BIND!");
-		return;
+		throw std::runtime_error("Error: Bind FT.");
 	}
 	if (listen(_serverFd, 10) < 0)
 	{
 		Logger::log("Failed: LISTEN!");
-		return;
+		throw std::runtime_error("Error: Listen FT.");
 	}
 
 	_epollFd = epoll_create(1024);
@@ -75,14 +75,17 @@ void Server::handleEvents()
 		}
 		else
 		{
-			Client* client = _clients[eventFd];
-			if (!client->readData())
-				removeClient(eventFd);
+			std::map<int, Client*>::iterator it;
+			it = _clients.find(eventFd);
+			if (it != _clients.end())
+			{
+				Client* client = _clients[eventFd];
+				handleClientRequest(client->getFd());
+			}
 			else
 			{
-				handleClientRequest(client->getFd());
 				std::ostringstream oss;
-				oss << "Handling request for client " << client->getFd();
+				oss << "Error: No client foud for FD " << eventFd;
 				Logger::log(oss.str());
 				std::cout << oss.str() << std::endl;
 			}
@@ -98,41 +101,53 @@ void Server::acceptClient()
 	{
 		Logger::log("Failed: ACCEPT!");
 		std::cerr << "accept." << std::endl;
-		return;
+		throw std::runtime_error("Error: Accept FT");
 	}
 	std::ostringstream oss;
 	oss << "Accepted client with fd: " << newFd;;
 	Logger::log(oss.str());
 	std::cout << "Accepted client with fd: " << newFd << std::endl;
 
-	Client* newClient = new Client(newFd);
-	_clients[newFd] = newClient;
+	_clients[newFd] = new Client(newFd);
 
 	struct epoll_event clientEvent;
 	clientEvent.events = EPOLLIN;
 	clientEvent.data.fd = newFd;
 	epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent);
-	handleClientRequest(newFd);
+	// handleClientRequest(newFd);
 }
 
 void Server::removeClient(int fd)
 {
+	std::ostringstream oss;
+	oss << "Client " << fd << " removed.";
+	Logger::log(oss.str());
+	std::cout << "Client " << fd << " removed." << std::endl;
 	if (_clients.find(fd) != _clients.end())
 	{
-		epoll_ctl(_epollFd, EPOLL_CTL_DEL, fd, NULL);
+		// epoll_ctl(_epollFd, EPOLL_CTL_DEL, fd, NULL);//???maybe take off
 		delete _clients[fd];
 		_clients.erase(fd);
-		std::ostringstream oss;
-		oss << "Client " << fd << " removed.";
-		Logger::log(oss.str());
-		std::cout << "Client " << fd << " removed." << std::endl;
 	}
+	close(fd);
 }
 
 void Server::handleClientRequest(int clientFd)
 {
 	Client* client = _clients[clientFd];
-	client->readData();
+	if (!client)
+	{
+		std::ostringstream oss;
+		oss << "Error: client not found FD " << clientFd << " removed.";
+		Logger::log(oss.str());
+		std::cout << "Error: client not found FD " << clientFd << " removed." << std::endl;
+		return;
+	}
+	if (!client->readData())
+	{
+		removeClient(clientFd);
+		return;
+	}
 	std::string requestData = client->getRequest(); // Get request from client
 	
 	std::ostringstream oss;

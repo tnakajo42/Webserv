@@ -6,15 +6,11 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:48 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/04 20:47:25 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:38:14 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/CGIHandler.hpp"
-#include <unistd.h>
-#include <sys/wait.h>
-#include <iostream>
-#include <cstdlib>
 
 CGIHandler::CGIHandler()
 {}
@@ -23,13 +19,14 @@ CGIHandler::~CGIHandler()
 
 Response CGIHandler::executeCGI(const Request &request)
 {
-    (void)request;  // Suppress warning if request isn't used
+	(void)request;  // Suppress warning if request isn't used
 
-    const char *args[] = {"/usr/bin/python3", "-u", NULL};  // Fix: use const char*
-    execve(args[0], (char *const *)args, NULL);
+	const char *args[] = {"/usr/bin/python3", "-u", NULL};  // Fix: use const char*
+	execve(args[0], (char *const *)args, NULL);
 
-    std::cerr << "execve failed" << std::endl;
-    exit(1);  // Fix: use exit() from <cstdlib>
+	Logger::log("execve failed");
+	std::cerr << "execve failed" << std::endl;
+	exit(1);  // Fix: use exit() from <cstdlib>
 }
 
 // Response CGIHandler::executeCGI(const Request &request)

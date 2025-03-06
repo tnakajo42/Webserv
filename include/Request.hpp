@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:45:47 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 16:06:39 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:43:01 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <string>
 #include <map>
+#include <sstream>
+#include <iostream>
 
 class Request
 {

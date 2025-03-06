@@ -6,22 +6,20 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:19:30 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 12:00:31 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:46:42 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ConfigParser.hpp"
 
-#include <fstream>
-#include <sstream>
-
-int stringToInt(const std::string& str) {
-    std::stringstream ss(str);
-    int result;
-    ss >> result;
-    return result;
+int stringToIntConfigParser(const std::string& str)
+{
+	std::stringstream ss(str);
+	int result;
+	if (ss >> result)
+		return result;
+	return -1;
 }
-
 
 ConfigParser::ConfigParser(const std::string& configPath)
 {
@@ -31,21 +29,80 @@ ConfigParser::ConfigParser(const std::string& configPath)
 	{
 		std::istringstream iss(line);
 		std::string key, value;
-		if (std::getline(iss, key, '=') && std::getline(iss, value))
+		if (std::getline(iss, key, '='))
+			_settings[key];
+		if (std::getline(iss, value) && !value.empty())
 		_settings[key] = value;
+		else
+			_settings[key] = "empty";
 	}
 }
+
 ConfigParser::~ConfigParser()
 {}
 
 int ConfigParser::getPort() const
 {
-	return stringToInt(_settings.at("port"));
+	try
+	{
+		std::string portStr = _settings.at("port");
+		if (_settings.at("port") == "empty")
+			return -1;
+		for (int i = 0; portStr[i]; ++i)
+		{
+			if (!isdigit(portStr[i]))
+				return -1;
+		}
+	
+		int	portInt = stringToIntConfigParser(_settings.at("port"));
+		
+		if (portInt <= 0 || portInt > 65535)
+			return -1;
+		return portInt;
+	}
+	catch (const std::out_of_range& ex)
+	{
+		return -1;
+	}
 }
 
-std::string ConfigParser::getHost() const
+bool validateAndConvertHost(const std::string &host, struct in_addr &addr)
 {
-	return _settings.at(_settings.at("host"));
+	if (inet_pton(AF_INET, host.c_str(), &addr) == 1)
+	{
+		return true;  // Valid IPv4
+	}
+	else if (inet_pton(AF_INET6, host.c_str(), &addr) == 1)
+	{
+		std::cout << "Error here!!!!!!!!!!!!!!!!!!!!\n";
+		return true;  // Valid IPv6
+	}
+	else
+	{
+		std::cerr << "Invalid host IP: " << host << " Error: " << strerror(errno) << std::endl;
+		return false; // Invalid IP
+	}
+}
+
+struct in_addr ConfigParser::getHost() const
+{
+	try
+	{
+		struct in_addr ipAddr;
+		
+		if (!validateAndConvertHost(_settings.at("host"), ipAddr))
+		{
+			std::cerr << "Invalid IP in config. Exiting...\n";
+			exit(EXIT_FAILURE);
+		}
+		return ipAddr;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "No host key in config file. Exiting...\n";
+		exit(EXIT_FAILURE);
+	}
+	
 }
 
 std::string ConfigParser::getRoot() const
@@ -65,7 +122,7 @@ std::string ConfigParser::getErrorPage() const
 
 int ConfigParser::getbodySize() const
 {
-	return stringToInt("client_max_body_size");
+	return stringToIntConfigParser("client_max_body_size");
 }
 
 std::string ConfigParser::getCgiPath() const
@@ -77,38 +134,3 @@ std::string ConfigParser::getUploadDir() const
 {
 	return _settings.at("upload_dir");
 }
-
-
-// ConfigParser::ConfigParser(std::string& filename)	: _filename(filename)
-// {}
-
-// void		ConfigParser::parse()
-// {
-// 	std::ifstream	file(_filename.c_str());//fstream
-// 	if (!file.is_open())
-// 		throw std::runtime_error("Error: .config file did not open.");
-// 	std::string		line;
-// 	while (std::getline(file, line))
-// 	{
-// 		// std::cout << "------------->" << line << std::endl;
-// 		std::istringstream		ss(line);//stream
-// 		std::string				key, value;
-// 		if (!std::getline(ss, key, '=') || !std::getline(ss, value))
-// 			throw std::runtime_error("Error: .config file is not 'key=vale' format.");
-// 		_globalSettings[key] = value;
-// 	}
-// 	file.close();
-// }
-
-// void		ConfigParser::displayConfig()
-// {
-// 	//interesting but map stors it elements in accending order, so the map[key]=value, the key smallest will be the first element like 'a' or '0'
-// 	for (std::map<std::string, std::string>::iterator it = _globalSettings.begin(); it != _globalSettings.end(); ++it)
-// 		std::cout << it->first << " = " << it->second << std::endl;
-// 	std::cout << std::endl;
-// }
-
-// std::map<std::string, std::string>&	ConfigParser::getGlobalSettings()
-// {
-// 	return _globalSettings;
-// }

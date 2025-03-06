@@ -6,13 +6,11 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:57 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 18:47:13 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:42:17 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Logger.hpp"
-#include <iostream>
-#include <ctime>
 
 std::ofstream Logger::_logFile;
 

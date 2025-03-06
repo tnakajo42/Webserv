@@ -33,3 +33,859 @@ Content-Length: 14
 
 www/index.html
 [2025-03-05 19:19:58] Client 6 removed.
+[2025-03-06 13:28:40] Server started
+[2025-03-06 13:28:40] Server started on port 8080
+
+[2025-03-06 13:28:45] Accepted client with fd: 6
+[2025-03-06 13:28:47] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:47] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:47] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:47] Client 6 removed.
+[2025-03-06 13:28:47] Accepted client with fd: 6
+[2025-03-06 13:28:47] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:8080/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 13:28:47] Sending response:
+HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-06 13:28:47] Response sent. Server should keep running...HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-06 13:28:47] Client 6 removed.
+[2025-03-06 13:28:54] Accepted client with fd: 6
+[2025-03-06 13:28:54] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:54] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:54] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:54] Client 6 removed.
+[2025-03-06 13:28:55] Accepted client with fd: 6
+[2025-03-06 13:28:55] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:55] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:55] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:55] Client 6 removed.
+[2025-03-06 13:28:56] Accepted client with fd: 6
+[2025-03-06 13:28:56] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:56] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:56] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:56] Client 6 removed.
+[2025-03-06 13:28:56] Accepted client with fd: 6
+[2025-03-06 13:28:56] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:56] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:56] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:56] Client 6 removed.
+[2025-03-06 13:28:56] Accepted client with fd: 6
+[2025-03-06 13:28:56] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:56] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:56] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:56] Client 6 removed.
+[2025-03-06 13:28:57] Accepted client with fd: 6
+[2025-03-06 13:28:57] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:28:57] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:57] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:28:57] Client 6 removed.
+[2025-03-06 13:29:10] Accepted client with fd: 6
+[2025-03-06 13:29:11] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:29:11] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:29:11] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:29:11] Client 6 removed.
+[2025-03-06 13:32:15] Server started
+[2025-03-06 13:32:15] Server started on port 8080
+
+[2025-03-06 13:32:22] Accepted client with fd: 6
+[2025-03-06 13:32:24] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 13:32:24] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:32:24] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 13:32:24] Client 6 removed.
+[2025-03-06 15:26:36] Server started with default Config file
+[2025-03-06 15:26:36] Server started on port 8080
+
+[2025-03-06 15:27:10] Accepted client with fd: 6
+[2025-03-06 15:27:12] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 15:27:12] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 15:27:12] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 15:27:12] Client 6 removed.
+[2025-03-06 17:04:55] Server started with default Config file
+[2025-03-06 17:06:27] Server started with default Config file
+[2025-03-06 17:07:12] Server started with default Config file
+[2025-03-06 17:07:42] Server started with provided Config file.
+[2025-03-06 17:08:37] Server started with provided Config file.
+[2025-03-06 17:11:44] Server started with provided Config file.
+[2025-03-06 17:11:44] Server started on port 8080
+
+[2025-03-06 17:11:59] Accepted client with fd: 6
+[2025-03-06 17:11:59] New client created: 6
+[2025-03-06 17:12:00] Full request received:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 17:12:00] Retriving Requests GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 17:12:00] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 17:12:00] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 17:12:00] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 17:12:00] Client 6 disconnected.
+[2025-03-06 17:12:00] Client 6 removed.
+[2025-03-06 17:12:00] Closing client: 6
+[2025-03-06 17:14:04] Server started with provided Config file.
+[2025-03-06 17:14:23] Server started with provided Config file.
+[2025-03-06 17:14:23] Server started on port 8080
+
+[2025-03-06 18:13:20] Server started with provided Config file.
+[2025-03-06 18:13:31] Server started with provided Config file.
+[2025-03-06 18:13:41] Server started with provided Config file.
+[2025-03-06 18:13:46] Server started with provided Config file.
+[2025-03-06 18:14:11] Server started with provided Config file.
+[2025-03-06 18:14:11] Server started on port 8080
+
+[2025-03-06 18:14:18] Accepted client with fd: 6
+[2025-03-06 18:14:18] New client created: 6
+[2025-03-06 18:14:19] Full request received:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:14:19] Retriving Requests GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:14:19] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:14:19] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 18:14:19] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 18:14:19] Client 6 disconnected.
+[2025-03-06 18:14:19] Client 6 removed.
+[2025-03-06 18:14:19] Closing client: 6
+[2025-03-06 18:14:42] Server started with provided Config file.
+[2025-03-06 18:14:42] Server started on port 8080123
+
+[2025-03-06 18:15:40] Server started with provided Config file.
+[2025-03-06 18:15:40] Server started on port 80801
+
+[2025-03-06 18:39:07] Server started with provided Config file.
+[2025-03-06 18:39:07] Server started on port 65000
+
+[2025-03-06 18:39:13] Accepted client with fd: 6
+[2025-03-06 18:39:13] New client created: 6
+[2025-03-06 18:39:13] Full request received:
+GET / HTTP/1.1
+Host: localhost:65000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:39:13] Retriving Requests GET / HTTP/1.1
+Host: localhost:65000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:39:13] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:65000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:39:13] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 18:39:13] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 18:39:13] Client 6 disconnected.
+[2025-03-06 18:39:13] Client 6 removed.
+[2025-03-06 18:39:13] Closing client: 6
+[2025-03-06 18:39:13] Accepted client with fd: 6
+[2025-03-06 18:39:13] New client created: 6
+[2025-03-06 18:39:13] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:65000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:65000/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 18:39:13] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:65000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:65000/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 18:39:13] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:65000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:65000/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 18:39:13] Sending response:
+HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-06 18:39:13] Response sent. Server should keep running...HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-06 18:39:13] Client 6 disconnected.
+[2025-03-06 18:39:13] Client 6 removed.
+[2025-03-06 18:39:13] Closing client: 6
+[2025-03-06 18:43:11] Server started with provided Config file.
+[2025-03-06 18:43:11] Server started on port 65535
+
+[2025-03-06 18:43:20] Accepted client with fd: 6
+[2025-03-06 18:43:20] New client created: 6
+[2025-03-06 18:43:20] Full request received:
+GET / HTTP/1.1
+Host: localhost:65535
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:43:20] Retriving Requests GET / HTTP/1.1
+Host: localhost:65535
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:43:20] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:65535
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 18:43:20] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 18:43:20] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 18:43:20] Client 6 disconnected.
+[2025-03-06 18:43:20] Client 6 removed.
+[2025-03-06 18:43:20] Closing client: 6
+[2025-03-06 18:43:20] Accepted client with fd: 6
+[2025-03-06 18:43:20] New client created: 6
+[2025-03-06 18:43:20] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:65535
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:65535/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 18:43:20] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:65535
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:65535/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 18:43:20] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:65535
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Referer: http://localhost:65535/
+Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+Priority: u=6
+
+
+[2025-03-06 18:43:20] Sending response:
+HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-06 18:43:20] Response sent. Server should keep running...HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-06 18:43:20] Client 6 disconnected.
+[2025-03-06 18:43:20] Client 6 removed.
+[2025-03-06 18:43:20] Closing client: 6
+[2025-03-06 18:43:29] Server started with provided Config file.
+[2025-03-06 18:43:29] Server started on port 65536
+
+[2025-03-06 18:44:27] Server started with provided Config file.
+[2025-03-06 18:44:27] Server started on port 65535
+
+[2025-03-06 18:45:28] Server started with provided Config file.
+[2025-03-06 18:45:28] Server started on port -1
+
+[2025-03-06 18:48:41] Server started with provided Config file.
+[2025-03-06 18:48:41] Server started on port -1
+
+[2025-03-06 18:48:48] Server started with provided Config file.
+[2025-03-06 18:48:48] Server started on port 65535
+
+[2025-03-06 18:52:04] Server started with provided Config file.
+[2025-03-06 18:52:47] Server started with provided Config file.
+[2025-03-06 18:55:16] Server started with provided Config file.
+[2025-03-06 18:58:18] Server started with provided Config file.
+[2025-03-06 18:59:13] Server started with provided Config file.
+[2025-03-06 18:59:13] Server started on port -1
+
+[2025-03-06 19:19:00] Server started with provided Config file.
+[2025-03-06 19:19:00] Server started on port 8080
+
+[2025-03-06 19:19:10] Accepted client with fd: 6
+[2025-03-06 19:19:10] New client created: 6
+[2025-03-06 19:19:10] Full request received:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 19:19:10] Retriving Requests GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 19:19:10] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-06 19:19:10] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 19:19:10] Response sent. Server should keep running...HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-06 19:19:10] Client 6 disconnected.
+[2025-03-06 19:19:10] Client 6 removed.
+[2025-03-06 19:19:10] Closing client: 6
+[2025-03-06 19:19:26] Server started with provided Config file.
+[2025-03-06 19:23:23] Server started with provided Config file.
+[2025-03-06 19:23:23] Server started on port -1
+
+[2025-03-06 19:30:03] Server started with provided Config file.
+[2025-03-06 19:30:03] Server started on port -1
+
+[2025-03-06 19:30:15] Server started with provided Config file.
+[2025-03-06 19:30:15] Server started on port 8080
+
+[2025-03-06 19:33:31] Server started with provided Config file.
+[2025-03-06 19:33:31] Server started on port 8080
+
+[2025-03-06 19:34:36] Server started with provided Config file.
+[2025-03-06 19:35:12] Server started with provided Config file.
+[2025-03-06 19:35:23] Server started with provided Config file.
+[2025-03-06 19:35:23] Server started on port 8080
+
+[2025-03-06 19:37:48] Server started with provided Config file.
+[2025-03-06 19:37:48] Server started on port -1
+
+[2025-03-06 19:38:14] Server started with provided Config file.
+[2025-03-06 19:38:14] Server started on port 65500
+
+[2025-03-06 19:38:23] Server started with provided Config file.
+[2025-03-06 19:38:23] Server started on port -1
+
+[2025-03-06 19:38:32] Server started with provided Config file.
+[2025-03-06 19:38:32] Server started on port -1
+
+[2025-03-06 19:38:43] Server started with provided Config file.
+[2025-03-06 19:38:43] Server started on port -1
+
+[2025-03-06 19:38:55] Server started with provided Config file.
+[2025-03-06 19:38:55] Server started on port -1
+
+[2025-03-06 19:39:06] Server started with provided Config file.
+[2025-03-06 19:39:06] Server started on port -1
+
+[2025-03-06 19:39:46] Server started with provided Config file.
+[2025-03-06 19:40:00] Server started with provided Config file.
+[2025-03-06 19:40:00] Failed: BIND!
+[2025-03-06 19:40:10] Server started with provided Config file.
+[2025-03-06 19:40:10] Failed: BIND!
+[2025-03-06 19:40:18] Server started with provided Config file.
+[2025-03-06 19:40:18] Failed: BIND!
+[2025-03-06 19:40:32] Server started with provided Config file.
+[2025-03-06 19:40:32] Failed: BIND!
+[2025-03-06 19:40:42] Server started with provided Config file.
+[2025-03-06 19:40:42] Failed: BIND!
+[2025-03-06 19:40:51] Server started with provided Config file.
+[2025-03-06 19:40:51] Server started on port 8080
+
+[2025-03-06 19:41:09] Server started with provided Config file.
+[2025-03-06 19:41:09] Failed: BIND!
+[2025-03-06 19:41:15] Server started with provided Config file.
+[2025-03-06 19:41:15] Server started on port 8080
+
+[2025-03-06 19:41:33] Server started with provided Config file.
+[2025-03-06 19:41:33] Failed: BIND!
+[2025-03-06 19:41:47] Server started with provided Config file.
+[2025-03-06 19:41:47] Server started on port 8080
+
+[2025-03-06 19:42:17] Server started with provided Config file.
+[2025-03-06 19:42:17] Server started on port 8080
+
+[2025-03-06 19:42:34] Server started with provided Config file.
+[2025-03-06 19:42:45] Server started with provided Config file.
+[2025-03-06 19:43:09] Server started with provided Config file.
+[2025-03-06 19:43:41] Server started with provided Config file.
+[2025-03-06 19:43:41] Server started on port 8080
+
+[2025-03-06 19:45:46] Server started with provided Config file.
+[2025-03-06 19:46:49] Server started with provided Config file.

@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:12:06 by tnakajo           #+#    #+#             */
-/*   Updated: 2025/03/05 18:48:17 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:23:43 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ bool	withoutConfig()
 {
 	try
 	{
+		Logger::init("server.log");
+		Logger::log("Server started with default Config file"); // Write a log message
 		const	std::string	defaultFile = "default.config";
-		std::cerr << "Not running Server\n";
+		// std::cout << "Not running Server\n";
 		Server	server(defaultFile);
+		// std::cout << "Server\n";
 		server.start();
 		
 	}
@@ -37,11 +40,12 @@ bool	withoutConfig()
 	return true;
 }
 
-// std::cout << "check" << "\n";
 bool	startConfig(char *configFileName)
 {
 	try
 	{
+		Logger::init("server.log");
+		Logger::log("Server started with provided Config file."); // Write a log message
 		const	std::string	configFile = configFileName;
 		Server	server(configFile);
 		server.start();
@@ -58,10 +62,9 @@ bool	startConfig(char *configFileName)
 
 int	main(int ac, char **av)
 {
-	Logger::init("server.log");
-	Logger::log("Server started"); // Write a log message
 	if (ac > 2)
 		return 1;
+
 	if (ac == 2)
 	{
 		if (!startConfig(av[1]))
@@ -75,42 +78,3 @@ int	main(int ac, char **av)
 	Logger::close();
 	return 0;
 }
-
-
-// int	main(int ac, char **av)
-// {
-// 	if (ac == 2)
-// 	{
-// 		try
-// 		{
-// 			std::string	filename = av[1];
-// 			ConfigParser	configFile(filename);
-// 			configFile.parse();
-// 			configFile.displayConfig();
-// 			std::map<std::string, std::string>	configResults;
-// 			configResults = configFile.getGlobalSettings();
-// 			LocationConfig	local(configResults);
-// 			// std::istringstream		ss(configResults["port"]);
-// 			// int port;
-// 			// ss >> port;
-// 			// std::istringstream		ss1(configResults["client_max_body_size"]);
-// 			// int	maxSize;
-// 			// ss1 >> maxSize;
-			
-// 			Server	server(local._port);
-// 			server.run();
-// 		}
-// 		catch(const std::exception& e)
-// 		{
-// 			std::cerr << e.what() << std::endl;
-// 			return 1;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		LocationConfig	local;
-// 		Server	server(local._port);//configfile 1st line
-// 		server.run();
-// 	}
-// 	return 0;
-// }

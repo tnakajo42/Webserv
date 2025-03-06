@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:46:50 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 18:45:05 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:42:22 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <string>
 #include <fstream>
+#include <iostream>
+#include <ctime>
 
 class Logger
 {

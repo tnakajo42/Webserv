@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <stdexcept>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/epoll.h>
@@ -13,7 +14,9 @@
 #include "Logger.hpp"
 #include "ConfigParser.hpp"
 #include "RequestHandler.hpp"
+#include "CGIHandler.hpp"
 #include "Logger.hpp"
+#include <arpa/inet.h>
 
 #define MAX_EVENTS 10
 
@@ -43,5 +46,5 @@ class Server
 		void					removeClient(int fd);
 };
 
-#endif // SERVER_HPP
+#endif
 

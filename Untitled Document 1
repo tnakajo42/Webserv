@@ -35,3 +35,94 @@ cgi_python=/usr/bin/python3
 upload_dir=/var/www/uploads
 allowed_methods=GET,POST,DELETE
 
+
+
+// void RequestHandler::handle(int client_socket)
+// {
+// 	char	buffer[8192];//why a buffer is needed?
+// 	std::string request;
+//     int bytes_received;
+//     size_t total_received = 0;
+	
+// 	// Read the full request headers
+//     while ((bytes_received = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
+//         buffer[bytes_received] = '\0';
+//         request.append(buffer, bytes_received);
+//         total_received += bytes_received;
+//         if (request.find("\r\n\r\n") != std::string::npos) {
+//             break;
+//         }
+//         if (total_received > 16384) { // Prevent infinite loop
+//             std::string response = generate_response(400, "Bad Request: Headers too large", "text/plain");
+//             send(client_socket, response.c_str(), response.size(), 0);
+//             close(client_socket);
+//             return;
+//         }
+//     }
+
+// 	if (bytes_received <= 0) {
+// 		close(client_socket);
+// 		return ;
+// 	}
+
+// 	// buffer[bytes_received] = '\0';//what is bytes_received is somewhere in the middle of the str, is not a problem to NULL it between?
+// 		// To terminate the string properly for safe handling in C++ functions.
+// 	// Parse method, path, and version
+//     std::istringstream request_stream(request);
+//     std::string method, path, version;
+//     request_stream >> method >> path >> version;
+
+// 	// Prevent directory traversal attacks
+// 	if (path.find("..") != std::string::npos) {
+//         std::string response = generate_response(403, "Forbidden", "text/plain");
+//         send(client_socket, response.c_str(), response.size(), 0);
+//         close(client_socket);
+//         return;
+//     }
+
+// 	if (method == "GET")
+//         handle_get(path, client_socket);
+//     else if (method == "POST")
+//         handle_post(path, client_socket, request, total_received);
+//     else if (method == "DELETE")
+//         handle_delete(path, client_socket);
+//     else {
+//         std::string response = generate_response(405, "Only Allowed GET/POST/DELETE", "text/plain");
+//         send(client_socket, response.c_str(), response.size(), 0);
+//     }
+//     close(client_socket);
+// }
+
+// ConfigParser::ConfigParser(std::string& filename)	: _filename(filename)
+// {}
+
+// void		ConfigParser::parse()
+// {
+// 	std::ifstream	file(_filename.c_str());//fstream
+// 	if (!file.is_open())
+// 		throw std::runtime_error("Error: .config file did not open.");
+// 	std::string		line;
+// 	while (std::getline(file, line))
+// 	{
+// 		// std::cout << "------------->" << line << std::endl;
+// 		std::istringstream		ss(line);//stream
+// 		std::string				key, value;
+// 		if (!std::getline(ss, key, '=') || !std::getline(ss, value))
+// 			throw std::runtime_error("Error: .config file is not 'key=vale' format.");
+// 		_globalSettings[key] = value;
+// 	}
+// 	file.close();
+// }
+
+// void		ConfigParser::displayConfig()
+// {
+// 	//interesting but map stors it elements in accending order, so the map[key]=value, the key smallest will be the first element like 'a' or '0'
+// 	for (std::map<std::string, std::string>::iterator it = _globalSettings.begin(); it != _globalSettings.end(); ++it)
+// 		std::cout << it->first << " = " << it->second << std::endl;
+// 	std::cout << std::endl;
+// }
+
+// std::map<std::string, std::string>&	ConfigParser::getGlobalSettings()
+// {
+// 	return _globalSettings;
+// }

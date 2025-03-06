@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:22:05 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 17:12:14 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:35:52 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <string.h>
+#include <sstream>
+#include "Logger.hpp"
 
 #define BUFFER_SIZE 1024
 

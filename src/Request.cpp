@@ -6,22 +6,24 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:17 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/05 16:06:32 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:43:46 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Request.hpp"
-#include <sstream>
-#include <iostream>
 
-Request::Request() {}
-Request::~Request() {}
+Request::Request()
+{}
 
-int stringToInt0(const std::string& str) {
-    std::stringstream ss(str);
-    int result;
-    ss >> result;
-    return result;
+Request::~Request()
+{}
+
+int stringToIntRequest(const std::string& str)
+{
+	std::stringstream ss(str);
+	int result;
+	ss >> result;
+	return result;
 }
 
 bool Request::parseRequest(const std::string &rawRequest)
@@ -35,7 +37,6 @@ bool Request::parseRequest(const std::string &rawRequest)
 	std::istringstream lineStream(line);
 	lineStream >> _method >> _path >> _httpVersion;
 
-	std::cout << _method << "-" << _path << "*" << _httpVersion << std::endl;
 	// Parse headers
 	while (std::getline(requestStream, line) && !line.empty())
 	{
@@ -52,7 +53,7 @@ bool Request::parseRequest(const std::string &rawRequest)
 	if (_headers.find("Content-Length") != _headers.end())
 	{
 		// int contentLength = std::stoi(_headers["Content-Length"]);
-		int contentLength = stringToInt0(_headers["Content-Length"]);
+		int contentLength = stringToIntRequest(_headers["Content-Length"]);
 		_body.resize(contentLength);
 		requestStream.read(&_body[0], contentLength);
 	}

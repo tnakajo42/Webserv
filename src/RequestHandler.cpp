@@ -32,7 +32,7 @@ void			RequestHandler::handle_get(std::string& path, int client_socket, ConfigPa
 		path = config.getIndex();
 	// path = "/index.html";//why path should equal "/"//4th line******CONFIG
 
-	std::string filepath = "www" + path;
+	std::string filepath = config.getRoot() + path;
 	std::string content = readFile(filepath);
 	std::string response;
 	if (!content.empty())

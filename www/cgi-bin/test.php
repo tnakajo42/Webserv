@@ -136,6 +136,11 @@ foreach ($_SERVER as $key => $value) {
 }
 echo "            </table>";
 echo "        </div>";
+
+// After the environment variables section, before </div class='container'>
+echo "        <div class='section'>";
+echo "            <a href='/cgi.html' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Back to Form</a>";
+echo "        </div>";
 echo "    </div>";
 
 // Theme Toggle Button

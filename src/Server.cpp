@@ -1,4 +1,15 @@
-#include "../include/Server.hpp"
+
+/* ************************************************************************** */
+/*                                                                            */
+/*          :::      ::::::::        w             www          bbbbbbb       */
+/*        :+:      :+:    :+:       w    www     ww            b      bb      */
+/*      +:+ +:+         +:+        w   ww  w   ww   eeeeeee   b      bb       */
+/*    +#+  +:+       +#+          w  ww   w  ww    e    e    bbbbbbbb         */
+/*  +#+#+#+#+#+   +#+            w ww    w ww     eeeee     b       bb        */
+/*       #+#    #+#             www     www      e         b       bb         */
+/*      ###   ########.de      www     www      eeeeeee    bbbbbbbbb          */
+/*                                                                            */
+/* ************************************************************************** */#include "../include/Server.hpp"
 
 Server::Server(const std::string& configPath) : _config(configPath)
 {
@@ -145,11 +156,46 @@ void Server::removeClient(int fd)
 	close(fd);
 }
 
+// changed
 void Server::handleClientRequest(int clientFd)
 {
+	/*
+	Client* client = _clients[clientFd];
+    if (!client) { 
+        std::ostringstream oss;
+        oss << "Error: client not found FD " << clientFd << " removed.";
+        Logger::log(oss.str());
+        std::cout << oss.str() << std::endl;
+        return;
+    }
+    if (!client->readData()) {
+        removeClient(clientFd);
+        return;
+    }
+    std::string requestData = client->getRequest();
+    std::ostringstream oss;
+    oss << "Raw HTTP Request from client " << clientFd << ":\n" << requestData;
+    Logger::log(oss.str());
+    std::cout << oss.str() << std::endl;
+
+    Request request;
+    request.parseRequest(requestData);
+    Response response = _router.routeRequest(request);
+    std::string httpResponse = response.buildResponse();
+    std::ostringstream oss1;
+    oss1 << "Sending response:\n" << httpResponse;
+    Logger::log(oss1.str());
+    std::cout << oss1.str() << std::endl;
+
+    send(clientFd, httpResponse.c_str(), httpResponse.size(), 0);
+    std::ostringstream oss2;
+    oss2 << "Response sent. Server should keep running...";
+    Logger::log(oss2.str());
+    std::cout << oss2.str() << std::endl;
+	*/
 	Client* client = _clients[clientFd];
 	if (!client)
-	{
+	{ 
 		std::ostringstream oss;
 		oss << "Error: client not found FD " << clientFd << " removed.";
 		Logger::log(oss.str());
@@ -161,32 +207,33 @@ void Server::handleClientRequest(int clientFd)
 		removeClient(clientFd);
 		return;
 	}
-	std::string requestData = client->getRequest(); // Get request from client
-	
-	std::ostringstream oss;
-	oss << "Raw HTTP Request from client " << clientFd << ":\n" << requestData;
-	Logger::log(oss.str());
-	std::cout << "Raw HTTP Request from client " << clientFd << ":\n" << requestData << std::endl;
+	std::string requestData = client->getRequest();
+    std::ostringstream oss;
+    oss << "Raw HTTP Request from client " << clientFd << ":\n" << requestData;
+    Logger::log(oss.str());
+    std::cout << oss.str() << std::endl;
 
-	Request request;
-	request.parseRequest(requestData); // Parse request
+    Request request;
+    request.parseRequest(requestData);
+    Response response = _router.routeRequest(request);
+    std::string httpResponse = response.buildResponse();
+    std::ostringstream oss1;
+    oss1 << "Sending response:\n" << httpResponse;
+    Logger::log(oss1.str());
+    std::cout << oss1.str() << std::endl;
 
-	Response response = _router.routeRequest(request);  // Route the request
-	std::string httpResponse = response.buildResponse();
-	std::ostringstream oss1;
-	oss1 << "Sending response:\n" << httpResponse;
-	Logger::log(oss1.str());
-	std::cout << "Sending response:\n" << httpResponse << std::endl;
+    std::string path = request.getPath();
+    if (request.getMethod() == "GET")
+        RequestHandler::handle_get(path, clientFd, _config);
+    else if (request.getMethod() == "POST")
+        RequestHandler::handle_post(path, clientFd, client->getRequest(), client->gettotalRecevied(), _config);
+    else if (request.getMethod() == "DELETE")
+        RequestHandler::handle_delete(path, clientFd, _config);
+    std::cout << "Response sent. Server should keep running..." << httpResponse << std::endl;
 
-	std::string path = request.getPath();
-	if (request.getMethod() == "GET")
-		RequestHandler::handle_get(path, clientFd, _config);
-	if (request.getMethod() == "POST")
-		RequestHandler::handle_post(path, clientFd, client->getRequest(), client->gettotalRecevied(), _config);
-	if (request.getMethod() == "DELETE")
-		RequestHandler::handle_delete(path, clientFd, _config);
-	std::ostringstream oss2;
-	oss2 << "Response sent. Server should keep running..." << httpResponse;
-	Logger::log(oss2.str());
-	std::cout << "Response sent. Server should keep running..." << httpResponse << std::endl;  // Debugging
+	send(clientFd, httpResponse.c_str(), httpResponse.size(), 0);
+    std::ostringstream oss2;
+    oss2 << "Response sent. Server should keep running...";
+    Logger::log(oss2.str());
+    std::cout << oss2.str() << std::endl;
 }

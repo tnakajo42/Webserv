@@ -6,7 +6,7 @@
 /*   By: tnakajo <tnakajo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:48 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/11 16:55:34 by tnakajo          ###   ########.fr       */
+/*   Updated: 2025/03/11 19:20:23 by tnakajo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,9 @@ std::string CGIHandler::getCGIScriptPath(const Request &request)
 
 void CGIHandler::parseCGIOutput(const std::string &output, Response &response)
 {
+	//add
+	if (response.getHeader("Connection").empty())
+		response.setHeader("Connection", "keep-alive");
 	// Find the boundary between headers and body (empty line)
 	size_t headerEnd = output.find("\r\n\r\n");
 	if (headerEnd == std::string::npos)

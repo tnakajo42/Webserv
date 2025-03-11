@@ -211,13 +211,14 @@ void	RequestHandler::handle_get(std::string& path, int client_socket, ConfigPars
 		handleCGIRequest(path, client_socket, "", 0, config, "GET");
 		return;
 	}
-
+	std::string filepath = "www" + (path == "/" ? config.getIndex() : path); //add
+    std::cout << "Serving static file: " << filepath << std::endl; //add
 	// ConfigParser settings("default.config");
 	if (path == "/")
 		path = config.getIndex();
 	// path = "/index.html";//why path should equal "/"//4th line******CONFIG
 
-	std::string filepath = "www" + path;
+	filepath = "www" + path;
 	std::string content = readFile(filepath);
 	std::string response;
 	if (!content.empty())

@@ -1,4 +1,8 @@
 #include "../include/RequestHandler.hpp"
+#include "../include/Request.hpp"
+#include "../include/Response.hpp"
+#include "../include/CGIHandler.hpp"
+#include <cstdlib> // For std::strtoul instead of std::stoul
 
 std::string		readFile(const std::string& filepath)
 {
@@ -25,14 +29,195 @@ std::string		generateResponse(int status_code, const std::string& content, const
 	return response.str();
 }
 
-void			RequestHandler::handle_get(std::string& path, int client_socket, ConfigParser& config)
+// add
+// Determine if a request should be handled by CGI
+// For example, check if it's in the cgi-bin directory or has specific extension
+bool RequestHandler::isCGIRequest(const std::string& path)
 {
+	if (path.find("/cgi-bin/") == 0 || 
+		path.find(".py") != std::string::npos ||
+		path.find(".php") != std::string::npos)
+		return true;
+	return false;
+}
+// add
+std::string RequestHandler::getContentType(const std::string& filepath)
+{
+	// Get file extension
+	size_t dot_pos = filepath.find_last_of('.');
+	if (dot_pos == std::string::npos)
+		return "application/octet-stream";
+
+	std::string ext = filepath.substr(dot_pos + 1);
+
+	// Map extension to content type
+	if (ext == "html" || ext == "htm") return "text/html";
+	if (ext == "css") return "text/css";
+	if (ext == "js") return "application/javascript";
+	if (ext == "json") return "application/json";
+	if (ext == "png") return "image/png";
+	if (ext == "jpg" || ext == "jpeg") return "image/jpeg";
+	if (ext == "gif") return "image/gif";
+	if (ext == "svg") return "image/svg+xml";
+	if (ext == "txt") return "text/plain";
+
+	return "application/octet-stream";
+}
+void RequestHandler::parseRequest(Request& request, const std::string& initial_data, 
+                               size_t initial_received, int client_socket)
+{
+	std::string data = initial_data;
+	size_t total_received = initial_received;
+
+	// Extract Content-Length
+	size_t content_length_pos = data.find("Content-Length: ");
+	if (content_length_pos == std::string::npos)
+		return; // No Content-Length found
+
+	size_t content_length_end = data.find("\r\n", content_length_pos);
+	std::string content_length_str = data.substr(content_length_pos + 16, 
+												content_length_end - (content_length_pos + 16));
+	size_t content_length = std::strtoul(content_length_str.c_str(), NULL, 10); // Use strtoul instead of stoul
+
+	// Find the end of headers
+	size_t header_end = data.find("\r\n\r\n");
+	if (header_end == std::string::npos)
+		return; // No end of headers found
+
+	// Parse headers
+	size_t pos = 0;
+	size_t line_end;
+
+	while ((line_end = data.find("\r\n", pos)) != std::string::npos && line_end < header_end)
+	{
+		std::string line = data.substr(pos, line_end - pos);
+		size_t colon_pos = line.find(": ");
+		if (colon_pos != std::string::npos)
+		{
+			std::string header_name = line.substr(0, colon_pos);
+			std::string header_value = line.substr(colon_pos + 2);
+			request.addHeader(header_name, header_value);
+		}    
+		pos = line_end + 2;
+	}    
+	// Calculate how much of the body we've already received
+	size_t body_start = header_end + 4;
+	size_t body_received = total_received - body_start;
+	// If we haven't received the full body, read more data
+	if (body_received < content_length)
+	{
+		size_t remaining = content_length - body_received;
+		char* buffer = new char[remaining + 1];
+		size_t bytes_read = 0;
+		while (bytes_read < remaining)
+		{
+			ssize_t result = recv(client_socket, buffer + bytes_read, remaining - bytes_read, 0);
+			if (result <= 0)
+				break; // Error or connection closed
+			bytes_read += result;
+		}
+		
+		buffer[bytes_read] = '\0';
+		data.append(buffer, bytes_read);
+		delete[] buffer;
+	}
+
+	// Set request body
+	request.setBody(data.substr(body_start));
+}
+
+std::string RequestHandler::formatResponse(const Response& response) {
+	std::ostringstream http_response;
+
+	// Status line
+	http_response << "HTTP/1.1 " << response.getStatusCode() << " ";
+
+	// Status text
+	switch (response.getStatusCode())
+	{
+		case 200: http_response << "OK"; break;
+		case 201: http_response << "Created"; break;
+		case 204: http_response << "No Content"; break;
+		case 400: http_response << "Bad Request"; break;
+		case 404: http_response << "Not Found"; break;
+		case 500: http_response << "Internal Server Error"; break;
+		default: http_response << "Unknown"; break;
+	}
+	http_response << "\r\n";
+
+	// Headers
+	const std::map<std::string, std::string>& headers = response.getHeaders();
+	for (std::map<std::string, std::string>::const_iterator it = headers.begin(); 
+			it != headers.end(); ++it)
+		http_response << it->first << ": " << it->second << "\r\n";
+	// Add Content-Length if not present
+	if (headers.find("Content-Length") == headers.end())
+		http_response << "Content-Length: " << response.getBody().size() << "\r\n";
+	// End of headers
+	http_response << "\r\n";
+	// Body
+	http_response << response.getBody();
+	return http_response.str();
+}
+
+void RequestHandler::handleCGIRequest(const std::string& path, int client_socket, 
+                                   const std::string& initial_request, size_t initial_received,
+                                   ConfigParser& config, const std::string& method) {
+    (void)config; // Suppress unused warning if config isn't used
+    
+    // Create a Request object to pass to CGI handler
+    Request request;
+    request.setPath(path);
+    request.setMethod(method);
+    
+    // For POST requests, we need to parse the body
+    if (method == "POST")
+		// Parse the initial request to extract headers and body
+        parseRequest(request, initial_request, initial_received, client_socket);
+    else
+	{
+		// For GET requests, extract query string if present
+        size_t query_pos = path.find('?');
+        if (query_pos != std::string::npos)
+		{
+			request.setQueryString(path.substr(query_pos + 1));
+            request.setPath(path.substr(0, query_pos));
+        }
+    }
+    
+    // Execute the CGI script
+    CGIHandler cgi;
+	std::cout << "CGI Request - Method: " << method << ", Path: " << path << ", Body: " << request.getBody() << std::endl;
+    Response response = cgi.executeCGI(request); // this is not working 
+    std::cout << "OK: " << response.getStatusCode() << std::endl;
+
+    // Convert Response object to HTTP response string
+    std::string http_response = formatResponse(response);
+    
+    // Send response to client
+    send(client_socket, http_response.c_str(), http_response.size(), 0);
+}
+
+
+
+
+
+
+void	RequestHandler::handle_get(std::string& path, int client_socket, ConfigParser& config)
+{
+	// Check if this should be handled by CGI
+	if (isCGIRequest(path))
+	{
+		handleCGIRequest(path, client_socket, "", 0, config, "GET");
+		return;
+	}
+
 	// ConfigParser settings("default.config");
 	if (path == "/")
 		path = config.getIndex();
 	// path = "/index.html";//why path should equal "/"//4th line******CONFIG
 
-	std::string filepath = config.getRoot() + path;
+	std::string filepath = "www" + path;
 	std::string content = readFile(filepath);
 	std::string response;
 	if (!content.empty())
@@ -44,7 +229,12 @@ void			RequestHandler::handle_get(std::string& path, int client_socket, ConfigPa
 }
 
 void RequestHandler::handle_post(const std::string& path, int client_socket, const std::string& initial_request, size_t initial_received, ConfigParser& config) {
-	(void)config;
+	// (void)config;
+	if (isCGIRequest(path))
+	{
+		handleCGIRequest(path, client_socket, initial_request, initial_received, config, "POST");
+		return;
+	}
 	if (path != "/uploads")
 	{
 		std::string response = generateResponse(404, "Not Found", "text/plain");
@@ -161,17 +351,26 @@ void RequestHandler::handle_post(const std::string& path, int client_socket, con
 
 void RequestHandler::handle_delete(const std::string& path, int client_socket, ConfigParser& config)
 {
-	(void)config;
+	(void)config; // Suppress unused parameter warning if config isn’t used
+
+	// Check if this should be handled by CGI
+	if (isCGIRequest(path))
+	{
+		handleCGIRequest(path, client_socket, "", 0, config, "DELETE");
+		return;
+	}
+
+	// Construct the file path (assuming files are in "www" directory)
 	std::string filepath = "www" + path;
 
-	if (remove(filepath.c_str()) == 0)
-	{
-		std::string response = generateResponse(200, "Image deleted successfully", "text/plain");
+	// Attempt to delete the file
+	if (unlink(filepath.c_str()) == 0) {
+		// File deleted successfully
+		std::string response = generateResponse(204, "", "text/plain"); // 204 No Content
 		send(client_socket, response.c_str(), response.size(), 0);
-	}
-	else
-	{
-		std::string response = generateResponse(404, "File Not Found", "text/plain");
+	} else {
+		// File not found or error occurred
+		std::string response = generateResponse(404, "<h1>404 Not Found</h1>", "text/html");
 		send(client_socket, response.c_str(), response.size(), 0);
 	}
 }

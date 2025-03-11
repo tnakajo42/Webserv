@@ -1,51 +1,79 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Request.hpp                                        :+:      :+:    :+:   */
+/*   _Request.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnakajo <tnakajo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/04 18:45:47 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/11 16:55:57 by tnakajo          ###   ########.fr       */
+/*   Created: 2025/03/04 19:08:17 by cadenegr          #+#    #+#             */
+/*   Updated: 2025/03/11 17:05:55 by tnakajo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REQUEST_HPP
-#define REQUEST_HPP
+#include "../include/Request.hpp"
 
-#include <string>
-#include <map>
-#include <sstream>
-#include <iostream>
+Request::Request()
+{}
 
-class Request
+Request::~Request()
+{}
+
+int stringToIntRequest(const std::string& str)
 {
-	private:
-		std::string							 _method;
-		std::string							 _path;
-		std::string							 _httpVersion;
-		std::map<std::string, std::string>	 _headers;
-		std::string							 _body;
-		std::string							 _queryString;
+	std::stringstream ss(str);
+	int result;
+	ss >> result;
+	return result;
+}
 
-	public:
-		Request();
-		~Request();
-		bool parseRequest(const std::string &rawRequest);
-		
-		std::string getMethod() const;
-		std::string getPath() const;
-		std::string getHeader(const std::string &key) const;
-		std::string getBody() const;
-		std::string getQueryString() const { return _queryString; }
-		const std::map<std::string, std::string>& getHeaders() const { return _headers; }
+bool Request::parseRequest(const std::string &rawRequest)
+{
+	std::istringstream requestStream(rawRequest);
+	std::string line;
 
+	// Parse request line (e.g., "GET /index.html HTTP/1.1")
+	if (!std::getline(requestStream, line) || line.empty())
+		return false;
+	std::istringstream lineStream(line);
+	lineStream >> _method >> _path >> _httpVersion;
 
-		void setMethod(const std::string& m) { _method = m; }
-		void setPath(const std::string& p) { _path = p; }
-		void setQueryString(const std::string& q) { _queryString = q; }
-		void setBody(const std::string& b) { _body = b; }
-		void addHeader(const std::string& name, const std::string& value) { _headers[name] = value; }
-};
+	// Parse headers
+	while (std::getline(requestStream, line) && !line.empty())
+	{
+		std::size_t delimiter = line.find(": ");
+		if (delimiter != std::string::npos)
+		{
+			std::string key = line.substr(0, delimiter);
+			std::string value = line.substr(delimiter + 2);
+			_headers[key] = value;
+		}
+	}
 
-#endif
+	// Read body if Content-Length is present
+	if (_headers.find("Content-Length") != _headers.end())
+	{
+		// int contentLength = std::stoi(_headers["Content-Length"]);
+		int contentLength = stringToIntRequest(_headers["Content-Length"]);
+		_body.resize(contentLength);
+		requestStream.read(&_body[0], contentLength);
+	}
+
+	return true;
+}
+
+std::string Request::getMethod() const
+{
+	return _method;
+}
+std::string Request::getPath() const
+{
+	return _path;
+}
+std::string Request::getHeader(const std::string &key) const
+{ 
+	return _headers.count(key) ? _headers.at(key) : "";
+}
+std::string Request::getBody() const
+{
+	return _body;
+}

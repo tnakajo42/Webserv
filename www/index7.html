@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Image Vault</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="css/style.css" type="text/css"> -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffffff, #f4f4f4);
+            color: #000;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            margin-bottom: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        input[type="file"],
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #000;
+            width: 60%;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #00ffcc;
+            border: none;
+            border-radius: 5px;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success { 
+            background: rgba(0, 255, 204, 0.2);
+            color: #00ffcc;
+        }
+
+        .error { 
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6666;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .preview-container {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+        #preview {
+            max-width: 100%;
+            display: none;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+        }
+
+        body.dark-theme .container {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-theme .section {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-theme input[type="file"],
+        body.dark-theme input[type="text"] {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        body.dark-theme button {
+            background: #00ffcc;
+            color: #000;
+        }
+
+        body.dark-theme .status.success {
+            background: rgba(0, 255, 204, 0.2);
+            color: #00ffcc;
+        }
+
+        body.dark-theme .status.error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6666;
+        }
+
+        /* Position the theme toggle button at the bottom */
+        #themeToggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #00ffcc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #themeToggle:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TAKA_SAN and CARLOS<br>WEBSITE!!!!!!</br></h1>
+        
+        <div class="section">
+            <h2><center>Upload Zone</center></h2>
+            <input type="file" id="fileInput" accept="image/*" onchange="previewImage()">
+            <button onclick="uploadFile()">Upload Now</button>
+            <div class="preview-container">
+                <img id="preview" alt="Image preview" style="display: none; max-width: 200px; margin-top: 10px;">
+            </div>
+            <p id="status" class="status"></p>
+        </div>
+        
+        <div class="section">
+            <h2><center>Delete Zone</center></h2>
+            <input type="text" id="deleteInput" placeholder="Enter filename to delete">
+            <button onclick="deleteFile()">Delete Now</button>
+            <p id="deleteStatus" class="status"></p>
+        </div>
+    </div>
+
+    <button id="themeToggle" onclick="toggleTheme()">Switch to Dark Mode</button>
+    
+    <script>
+        function previewImage() {
+            const fileInput = document.getElementById('fileInput');
+            const preview = document.getElementById('preview');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+        
+        function showStatus(elementId, message, isSuccess) {
+            const status = document.getElementById(elementId);
+            status.textContent = message;
+            status.style.display = 'block';
+            status.classList.remove('success', 'error');
+            status.classList.add(isSuccess ? 'success' : 'error');
+            setTimeout(() => status.style.display = 'none', 3000);
+        }
+
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                showStatus('status', 'Please select an image!', false);
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file, file.name);
+
+            try {
+                const response = await fetch('/uploads', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.text();
+                showStatus('status', data, true);
+                fileInput.value = '';
+                document.getElementById('preview').style.display = 'none';
+            } catch (error) {
+                showStatus('status', 'Upload failed!', false);
+                console.error(error);
+            }
+        }
+
+        async function deleteFile() {
+            const filename = document.getElementById('deleteInput').value;
+            if (!filename) {
+                showStatus('deleteStatus', 'Please enter a filename!', false);
+                return;
+            }
+
+            try {
+                const response = await fetch('/uploads/' + filename, {
+                    method: 'DELETE'
+                });
+                const data = await response.text();
+                showStatus('deleteStatus', data, true);
+                document.getElementById('deleteInput').value = '';
+            } catch (error) {
+                showStatus('deleteStatus', 'Delete failed!', false);
+                console.error(error);
+            }
+        }
+
+        // light/dark toggle
+        // At the start of your script tag, add this function to load the saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const button = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                button.textContent = "Switch to Light Mode";
+            } else {
+                body.classList.remove('dark-theme');
+                button.textContent = "Switch to Dark Mode";
+            }
+        }
+
+        // Modified toggleTheme function to save the preference
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('themeToggle');
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                button.textContent = "Switch to Light Mode";
+                localStorage.setItem('theme', 'dark');
+            } else {
+                button.textContent = "Switch to Dark Mode";
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Call loadTheme when the page loads
+        document.addEventListener('DOMContentLoaded', loadTheme);
+    </script>
+</body>
+</html>

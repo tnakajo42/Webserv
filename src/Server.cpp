@@ -32,9 +32,16 @@ void	Server::setupServer()
 	_epollFd = epoll_create(1024);
 
 	struct epoll_event event;
-	event.events = EPOLLIN;
+	event.events = EPOLLIN | EPOLLOUT;
 	event.data.fd = _serverFd;
-	epoll_ctl(_epollFd, EPOLL_CTL_ADD, _serverFd, &event);
+	// epoll_ctl(_epollFd, EPOLL_CTL_MOD, _serverFd, &event);
+	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, _serverFd, &event) == -1)
+	{
+		perror("epoll_ctl: EPOLL_CTL_ADD failed");
+		close(_serverFd);
+		return;
+	}
+	
 
 	std::ostringstream	oss;
 	oss << "Server started on port " << _config.getPort() << std::endl;
@@ -113,7 +120,13 @@ void Server::acceptClient()
 	struct epoll_event clientEvent;
 	clientEvent.events = EPOLLIN;
 	clientEvent.data.fd = newFd;
-	epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent);
+	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent) == -1)
+	{
+		perror("epoll_ctl: EPOLL_CTL_ADD failed");
+		close(newFd);
+		return;
+	}
+	// epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent);
 	// handleClientRequest(newFd);
 }
 

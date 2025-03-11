@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:10:54 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/06 19:18:51 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:26:58 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ class ConfigParser
 	public:
 		ConfigParser(const std::string& configPath);
 		~ConfigParser();
-		int getPort() const;
-		struct in_addr getHost() const;
-		std::string getRoot() const;
-		std::string getIndex() const;
-		std::string getErrorPage() const;
-		int getbodySize() const;
-		std::string getCgiPath() const;
-		std::string getUploadDir() const;
+
+		int				getPort() const;
+		struct in_addr	getHost() const;
+		std::string		getRoot() const;
+		std::string		getIndex() const;
+		std::string		getErrorPage() const;
+		int				getbodySize() const;
+		std::string		getCgiPath() const;
+		std::string		getUploadDir() const;
+		bool			configChecker();
 };

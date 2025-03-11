@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:19:30 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/06 19:46:42 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/10 18:59:33 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,27 @@ ConfigParser::ConfigParser(const std::string& configPath)
 		else
 			_settings[key] = "empty";
 	}
+}
+
+bool	ConfigParser::configChecker()
+{
+	if (getPort() == -1)
+		return false;
+	getHost();
+	std::string	result = getRoot();
+	if (result == "false")
+		return false;
+	if (getIndex() == "false")
+		return false;
+	if (getErrorPage() == "false")
+		return false;
+	if (getbodySize() == -1)
+		return false;
+	if (getCgiPath() == "false")
+		return false;
+	if (getUploadDir() == "false")
+		return false;
+	return true;
 }
 
 ConfigParser::~ConfigParser()
@@ -107,21 +128,69 @@ struct in_addr ConfigParser::getHost() const
 
 std::string ConfigParser::getRoot() const
 {
-	return _settings.at("root");
+	if ((_settings.find("root") != _settings.end()) && _settings.at("root") != "empty")
+	{
+		std::string rootStr = _settings.at("root");
+		return rootStr;
+	}
+	else
+		return "false";
 }
 
 std::string ConfigParser::getIndex() const
 {
+	try
+	{
+		std::string indexStr = _settings.at("index");
+		if (_settings.at("index") == "empty")
+			return "false";
+	}
+	catch (const std::out_of_range& ex)
+	{
+		return "false";
+	}
 	return _settings.at("index");
 }
 
 std::string ConfigParser::getErrorPage() const
 {
+	try
+	{
+		std::string errorStr = _settings.at("error_page_404");
+		if (_settings.at("error_page_404") == "empty")
+			return "false";
+	}
+	catch (const std::out_of_range& ex)
+	{
+		return "false";
+	}
 	return _settings.at("error_page_404");
 }
 
 int ConfigParser::getbodySize() const
 {
+	try
+	{
+		std::string client_max_body_sizeStr = _settings.at("client_max_body_size");
+		if (_settings.at("client_max_body_size") == "empty")
+			return -1;
+		for (int i = 0; client_max_body_sizeStr[i]; ++i)
+		{
+			if (!isdigit(client_max_body_sizeStr[i]))
+				return -1;
+		}
+	
+		int	client_max_body_sizeInt = stringToIntConfigParser(_settings.at("client_max_body_size"));
+		
+		if (client_max_body_sizeInt < 1 || client_max_body_sizeInt >= 2147483647)
+			return -1;
+		return client_max_body_sizeInt;
+	}
+	catch (const std::out_of_range& ex)
+	{
+		return -1;
+	}
+
 	return stringToIntConfigParser("client_max_body_size");
 }
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <stdexcept>
+#include <algorithm>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/epoll.h>
@@ -31,6 +32,7 @@ class Server
 		// Logger					_logger;
 		socklen_t				_addrlen;
 		ConfigParser			_config;
+		std::vector<int>		_sockets;
 
 		void setupServer();
 		void handleNewConnection();
@@ -42,7 +44,7 @@ class Server
 
 		void					start();
 		void					handleEvents();
-		void					acceptClient();
+		void					acceptClient(int serverFd);
 		void					removeClient(int fd);
 };
 

@@ -9,7 +9,9 @@
 /*       #+#    #+#             www     www      e         b       bb         */
 /*      ###   ########.de      www     www      eeeeeee    bbbbbbbbb          */
 /*                                                                            */
-/* ************************************************************************** */#include "../include/Server.hpp"
+/* ************************************************************************** */
+#include "../include/Server.hpp"
+
 
 Server::Server(const std::string& configPath) : _config(configPath)
 {
@@ -18,56 +20,78 @@ Server::Server(const std::string& configPath) : _config(configPath)
 
 void	Server::setupServer()
 {
-	_serverFd = socket(AF_INET, SOCK_STREAM, 0);
-	if (_serverFd < 0)
+	std::stack<int>	ports = _config.getPorts();
+	while (!ports.empty())
 	{
-		Logger::log("Failed: SOCKET!");
-		throw std::runtime_error("Error: Socket FT.");
-	}
-	_address.sin_family = AF_INET;
-	_address.sin_port = htons(_config.getPort());
-	_address.sin_addr = _config.getHost();
-	_addrlen = sizeof(_address);
-	
-	if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
-	{
-		Logger::log("Failed: BIND!");
-		throw std::runtime_error("Error: Bind FT.");
-	}
-	if (listen(_serverFd, 10) < 0)
-	{
-		Logger::log("Failed: LISTEN!");
-		throw std::runtime_error("Error: Listen FT.");
+		int	port = ports.top();
+		ports.pop();
+		
+		_serverFd = socket(AF_INET, SOCK_STREAM, 0);
+		if (_serverFd < 0)
+		{
+			Logger::log("Failed: SOCKET!");
+			std::cerr << "Error: Socket FT." <<std::endl;
+			continue;
+		}
+		_address.sin_family = AF_INET;
+		_address.sin_port = htons(port);
+		_address.sin_addr = _config.getHost();
+		_addrlen = sizeof(_address);
+		
+		if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
+		{
+			Logger::log("Failed: BIND!");
+			throw std::runtime_error("Error: Bind FT.");
+		}
+		if (listen(_serverFd, 10) < 0)
+		{
+			Logger::log("Failed: LISTEN!");
+			throw std::runtime_error("Error: Listen FT.");
+		}
+		
+		_sockets.push_back(_serverFd);
+
+		Logger::logInt("Failed: SOCKET!", port);
+		std::cout << "Listening on port " << port << std::endl;
 	}
 
+	// Create epoll instance
 	_epollFd = epoll_create(1024);
-
-	struct epoll_event event;
-	event.events = EPOLLIN | EPOLLOUT;
-	event.data.fd = _serverFd;
-	// epoll_ctl(_epollFd, EPOLL_CTL_MOD, _serverFd, &event);
-	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, _serverFd, &event) == -1)
+	if (_epollFd == -1)
 	{
-		perror("epoll_ctl: EPOLL_CTL_ADD failed");
-		close(_serverFd);
-		return;
+		Logger::log("Failed to create epoll instance.");
+		throw std::runtime_error("Error: epoll_create failed.");
+	}
+
+	// Register all sockets with epoll
+	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
+	{
+		int sockfd = *it;
+		struct epoll_event event;
+		event.events = EPOLLIN;
+		event.data.fd = sockfd;
+		if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, sockfd, &event) == -1)
+		{
+			Logger::log("epoll_ctl: EPOLL_CTL_ADD failed");
+			close(sockfd);
+		}
 	}
 	
-
-	std::ostringstream	oss;
-	oss << "Server started on port " << _config.getPort() << std::endl;
-	Logger::log(oss.str());
-	std::cout << oss.str() << std::endl;
+	std::cout << "Server setup complete." << std::endl;
 }
 
 Server::~Server()
 {
-	close(_serverFd);
-	close(_epollFd);
-	for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
 	{
-		delete it->second;
+		int sockfd = *it;
+		close(sockfd);
 	}
+
+	close(_epollFd);
+
+	for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+		delete it->second;
 }
 
 void Server::start()
@@ -87,59 +111,185 @@ void Server::handleEvents()
 	{
 		int eventFd = events[i].data.fd;
 
-		if (eventFd == _serverFd)
+		if (std::find(_sockets.begin(), _sockets.end(), eventFd) != _sockets.end())
 		{
-			acceptClient();
+			acceptClient(eventFd);
 		}
 		else
 		{
-			std::map<int, Client*>::iterator it;
+			std::map<int, Client*>::iterator it = _clients.find(eventFd);
 			it = _clients.find(eventFd);
 			if (it != _clients.end())
 			{
-				Client* client = _clients[eventFd];
-				handleClientRequest(client->getFd());
+				handleClientRequest(eventFd);
 			}
 			else
 			{
-				std::ostringstream oss;
-				oss << "Error: No client foud for FD " << eventFd;
-				Logger::log(oss.str());
-				std::cout << oss.str() << std::endl;
+				Logger::logInt("Error: No client foud for FD ", eventFd);
+				std::cout << "Error: No client foud for FD " << eventFd << std::endl;
 			}
 		}
 	}
 }
 
-void Server::acceptClient()
+void Server::acceptClient(int serverFd)
 {
-	int newFd = accept(_serverFd, (struct sockaddr*)&_address, &_addrlen);
+    int newFd = accept(serverFd, (struct sockaddr*)&_address, &_addrlen);
+    if (newFd < 0)
+    {
+        Logger::log("Failed: ACCEPT!");
+        std::cerr << "Accept failed on socket " << serverFd << std::endl;
+        return;
+    }
 
-	if (newFd < 0)
-	{
-		Logger::log("Failed: ACCEPT!");
-		std::cerr << "accept." << std::endl;
-		throw std::runtime_error("Error: Accept FT");
-	}
-	std::ostringstream oss;
-	oss << "Accepted client with fd: " << newFd;;
-	Logger::log(oss.str());
-	std::cout << "Accepted client with fd: " << newFd << std::endl;
+    std::ostringstream oss;
+    oss << "Accepted client with fd: " << newFd;
+    Logger::log(oss.str());
+    std::cout << oss.str() << std::endl;
 
-	_clients[newFd] = new Client(newFd);
+    _clients[newFd] = new Client(newFd);
 
-	struct epoll_event clientEvent;
-	clientEvent.events = EPOLLIN;
-	clientEvent.data.fd = newFd;
-	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent) == -1)
-	{
-		perror("epoll_ctl: EPOLL_CTL_ADD failed");
-		close(newFd);
-		return;
-	}
-	// epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent);
-	// handleClientRequest(newFd);
+    struct epoll_event clientEvent;
+    clientEvent.events = EPOLLIN;
+    clientEvent.data.fd = newFd;
+    if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent) == -1)
+    {
+        perror("epoll_ctl: EPOLL_CTL_ADD failed");
+        close(newFd);
+        return;
+    }
 }
+
+
+// Server::Server(const std::string& configPath) : _config(configPath)
+// {
+// 	setupServer();
+// }
+
+// void	Server::setupServer()
+// {
+// 	_serverFd = socket(AF_INET, SOCK_STREAM, 0);
+// 	if (_serverFd < 0)
+// 	{
+// 		Logger::log("Failed: SOCKET!");
+// 		throw std::runtime_error("Error: Socket FT.");
+// 	}
+// 	_address.sin_family = AF_INET;
+// 	_address.sin_port = htons(_config.getPort());
+// 	_address.sin_addr = _config.getHost();
+// 	_addrlen = sizeof(_address);
+	
+// 	if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
+// 	{
+// 		Logger::log("Failed: BIND!");
+// 		throw std::runtime_error("Error: Bind FT.");
+// 	}
+// 	if (listen(_serverFd, 10) < 0)
+// 	{
+// 		Logger::log("Failed: LISTEN!");
+// 		throw std::runtime_error("Error: Listen FT.");
+// 	}
+
+// 	_epollFd = epoll_create(1024);
+
+// 	struct epoll_event event;
+// 	event.events = EPOLLIN | EPOLLOUT;
+// 	event.data.fd = _serverFd;
+// 	// epoll_ctl(_epollFd, EPOLL_CTL_MOD, _serverFd, &event);
+// 	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, _serverFd, &event) == -1)
+// 	{
+// 		perror("epoll_ctl: EPOLL_CTL_ADD failed");
+// 		close(_serverFd);
+// 		return;
+// 	}
+	
+
+// 	std::ostringstream	oss;
+// 	oss << "Server started on port " << _config.getPort() << std::endl;
+// 	Logger::log(oss.str());
+// 	std::cout << oss.str() << std::endl;
+// }
+
+// Server::~Server()
+// {
+// 	close(_serverFd);
+// 	close(_epollFd);
+// 	for (std::map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+// 	{
+// 		delete it->second;
+// 	}
+// }
+
+// void Server::start()
+// {
+// 	while (true)
+// 	{
+// 		handleEvents();
+// 	}
+// }
+
+// void Server::handleEvents()
+// {
+// 	struct epoll_event events[MAX_EVENTS];
+// 	int numEvents = epoll_wait(_epollFd, events, MAX_EVENTS, -1);
+
+// 	for (int i = 0; i < numEvents; i++)
+// 	{
+// 		int eventFd = events[i].data.fd;
+
+// 		if (eventFd == _serverFd)
+// 		{
+// 			acceptClient();
+// 		}
+// 		else
+// 		{
+// 			std::map<int, Client*>::iterator it;
+// 			it = _clients.find(eventFd);
+// 			if (it != _clients.end())
+// 			{
+// 				Client* client = _clients[eventFd];
+// 				handleClientRequest(client->getFd());
+// 			}
+// 			else
+// 			{
+// 				std::ostringstream oss;
+// 				oss << "Error: No client foud for FD " << eventFd;
+// 				Logger::log(oss.str());
+// 				std::cout << oss.str() << std::endl;
+// 			}
+// 		}
+// 	}
+// }
+
+// void Server::acceptClient()
+// {
+// 	int newFd = accept(_serverFd, (struct sockaddr*)&_address, &_addrlen);
+
+// 	if (newFd < 0)
+// 	{
+// 		Logger::log("Failed: ACCEPT!");
+// 		std::cerr << "accept." << std::endl;
+// 		throw std::runtime_error("Error: Accept FT");
+// 	}
+// 	std::ostringstream oss;
+// 	oss << "Accepted client with fd: " << newFd;;
+// 	Logger::log(oss.str());
+// 	std::cout << "Accepted client with fd: " << newFd << std::endl;
+
+// 	_clients[newFd] = new Client(newFd);
+
+// 	struct epoll_event clientEvent;
+// 	clientEvent.events = EPOLLIN;
+// 	clientEvent.data.fd = newFd;
+// 	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent) == -1)
+// 	{
+// 		perror("epoll_ctl: EPOLL_CTL_ADD failed");
+// 		close(newFd);
+// 		return;
+// 	}
+// 	// epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent);
+// 	// handleClientRequest(newFd);
+// }
 
 void Server::removeClient(int fd)
 {

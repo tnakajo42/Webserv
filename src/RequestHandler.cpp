@@ -198,11 +198,6 @@ void RequestHandler::handleCGIRequest(const std::string& path, int client_socket
     send(client_socket, http_response.c_str(), http_response.size(), 0);
 }
 
-
-
-
-
-
 void	RequestHandler::handle_get(std::string& path, int client_socket, ConfigParser& config)
 {
 	// Check if this should be handled by CGI
@@ -213,18 +208,20 @@ void	RequestHandler::handle_get(std::string& path, int client_socket, ConfigPars
 	}
 	std::string filepath = "www" + (path == "/" ? config.getIndex() : path); //add
     std::cout << "Serving static file: " << filepath << std::endl; //add
-	// ConfigParser settings("default.config");
-	if (path == "/")
-		path = config.getIndex();
+	// // ConfigParser settings("default.config");
+	// if (path == "/")
+	// 	path = config.getIndex();
 	// path = "/index.html";//why path should equal "/"//4th line******CONFIG
 
-	filepath = "www" + path;
+	// std::string	filepath = config.getIndex();
 	std::string content = readFile(filepath);
+	std::string	errorPath = config.getErrorPage();
+	std::string contentError = readFile(errorPath);
 	std::string response;
 	if (!content.empty())
 		response = generateResponse(200, content, "text/html");
 	else
-		response = generateResponse(404, "<h1>404 Not Found</h1>", "text/html");//5th line
+		response = generateResponse(404, contentError, "text/html");//5th line
 	send(client_socket, response.c_str(), response.size(), 0);//what send does?
 	// Sends data back to the client through the socket.
 }

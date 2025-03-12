@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:46:50 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/06 16:42:22 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:41:59 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ class Logger
 
 	public:
 		static void init(const std::string &filename);
-		static void log(const std::string &message);
+		static void	log(const std::string &message);
+		static void	logStr(const std::string &message, std::string& variable);
+		static void	logInt(const std::string &message, int variable);
 		static void close();
 };
 

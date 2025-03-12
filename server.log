@@ -27418,3 +27418,276 @@ www/uploads/exif.jpg
 [2025-03-12 19:19:00] Failed: SOCKET!8080
 [2025-03-12 19:19:17] Server started with provided Config file.
 [2025-03-12 19:19:17] Failed: SOCKET!10080
+[2025-03-12 19:33:50] Server started with provided Config file.
+[2025-03-12 19:33:50] Failed: SOCKET!10080
+[2025-03-12 19:34:02] Accepted client with fd: 6
+[2025-03-12 19:34:02] New client created: 6
+[2025-03-12 19:34:07] Client 6 disconnected.
+[2025-03-12 19:34:07] Client 6 removed.
+[2025-03-12 19:34:07] Closing client: 6
+[2025-03-12 19:34:22] Accepted client with fd: 6
+[2025-03-12 19:34:22] New client created: 6
+[2025-03-12 19:34:27] Server started with provided Config file.
+[2025-03-12 19:34:27] Failed: BIND!
+[2025-03-12 19:34:56] Server started with provided Config file.
+[2025-03-12 19:34:56] Failed: SOCKET!8080
+[2025-03-12 19:35:03] Accepted client with fd: 6
+[2025-03-12 19:35:03] New client created: 6
+[2025-03-12 19:35:03] Full request received:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:03] Retriving Requests GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:03] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:03] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-12 19:35:03] Response sent. Server should keep running...
+[2025-03-12 19:35:04] Client 6 disconnected.
+[2025-03-12 19:35:04] Client 6 removed.
+[2025-03-12 19:35:04] Closing client: 6
+[2025-03-12 19:35:09] Accepted client with fd: 6
+[2025-03-12 19:35:09] New client created: 6
+[2025-03-12 19:35:10] Full request received:
+GET /index.html HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:10] Retriving Requests GET /index.html HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:10] Raw HTTP Request from client 6:
+GET /index.html HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:10] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-12 19:35:10] Response sent. Server should keep running...
+[2025-03-12 19:35:10] Client 6 disconnected.
+[2025-03-12 19:35:10] Client 6 removed.
+[2025-03-12 19:35:10] Closing client: 6
+[2025-03-12 19:35:16] Accepted client with fd: 6
+[2025-03-12 19:35:16] New client created: 6
+[2025-03-12 19:35:16] Full request received:
+GET /cgi.html HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:16] Retriving Requests GET /cgi.html HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:16] Raw HTTP Request from client 6:
+GET /cgi.html HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+[2025-03-12 19:35:16] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 12
+
+www/cgi.html
+[2025-03-12 19:35:16] Response sent. Server should keep running...
+[2025-03-12 19:35:16] Client 6 disconnected.
+[2025-03-12 19:35:16] Client 6 removed.
+[2025-03-12 19:35:16] Closing client: 6
+[2025-03-12 19:35:28] Accepted client with fd: 6
+[2025-03-12 19:35:28] New client created: 6
+[2025-03-12 19:35:28] Full request received:
+POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 24
+Origin: http://localhost:8080
+Connection: keep-alive
+Referer: http://localhost:8080/cgi.html
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+name=carlos&message=hola
+[2025-03-12 19:35:28] Retriving Requests POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 24
+Origin: http://localhost:8080
+Connection: keep-alive
+Referer: http://localhost:8080/cgi.html
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+name=carlos&message=hola
+[2025-03-12 19:35:28] Raw HTTP Request from client 6:
+POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 24
+Origin: http://localhost:8080
+Connection: keep-alive
+Referer: http://localhost:8080/cgi.html
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+name=carlos&message=hola
+[2025-03-12 19:35:28] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 19
+
+www/cgi-bin/test.rb
+[2025-03-12 19:35:28] Retriving Requests POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br, zstd
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 24
+Origin: http://localhost:8080
+Connection: keep-alive
+Referer: http://localhost:8080/cgi.html
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+name=carlos&message=hola
+[2025-03-12 19:35:28] Response sent. Server should keep running...

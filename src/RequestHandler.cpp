@@ -36,7 +36,8 @@ bool RequestHandler::isCGIRequest(const std::string& path)
 {
 	if (path.find("/cgi-bin/") == 0 || 
 		path.find(".py") != std::string::npos ||
-		path.find(".php") != std::string::npos)
+		path.find(".php") != std::string::npos ||
+		path.find(".rb") != std::string::npos)
 		return true;
 	return false;
 }
@@ -206,14 +207,8 @@ void	RequestHandler::handle_get(std::string& path, int client_socket, ConfigPars
 		handleCGIRequest(path, client_socket, "", 0, config, "GET");
 		return;
 	}
-	std::string filepath = "www" + (path == "/" ? config.getIndex() : path); //add
+	std::string filepath = "www" + (path == "/" ? config.getIndex() : path); //NOT VERY SURE IF THIS IS CORRECT
     std::cout << "Serving static file: " << filepath << std::endl; //add
-	// // ConfigParser settings("default.config");
-	// if (path == "/")
-	// 	path = config.getIndex();
-	// path = "/index.html";//why path should equal "/"//4th line******CONFIG
-
-	// std::string	filepath = config.getIndex();
 	std::string content = readFile(filepath);
 	std::string	errorPath = config.getErrorPage();
 	std::string contentError = readFile(errorPath);

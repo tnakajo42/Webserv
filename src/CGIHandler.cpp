@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CGIHandler.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnakajo <tnakajo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:48 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/11 19:20:23 by tnakajo          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:32:37 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ Response CGIHandler::executeCGI(const Request &request)
 			interpreter = "/usr/bin/php-cgi"; // Path to PHP CGI interpreter
 		else if (scriptPath.find(".py") != std::string::npos)
 			interpreter = "/usr/bin/python3";
+		else if (scriptPath.find(".rb") != std::string::npos)
+			interpreter = "/usr/bin/ruby";
 		else
 		{
 			std::cerr << "Unknown script type: " << scriptPath << std::endl;

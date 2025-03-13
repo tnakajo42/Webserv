@@ -6,7 +6,7 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:19:30 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/12 18:45:02 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:42:57 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int stringToIntConfigParser(const std::string& str)
 
 ConfigParser::ConfigParser(const std::string& configPath)
 {
+	if (configPath.find(".config\0") == std::string::npos)
+		throw std::runtime_error("Error: File is not .config format.");
 	std::ifstream file(configPath.c_str());
 	if (!file)
 		throw std::runtime_error("Error: Config File not found.");

@@ -27691,3 +27691,893 @@ Priority: u=0, i
 
 name=carlos&message=hola
 [2025-03-12 19:35:28] Response sent. Server should keep running...
+[2025-03-13 17:25:23] Server started with provided Config file.
+[2025-03-13 17:25:29] Server started with provided Config file.
+[2025-03-13 17:25:29] Failed: SOCKET!8080
+[2025-03-13 17:25:48] Accepted client with fd: 6
+[2025-03-13 17:25:48] New client created: 6
+[2025-03-13 17:25:48] Full request received:
+GET / HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:48] Retriving Requests GET / HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:48] Raw HTTP Request from client 6:
+GET / HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:48] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-13 17:25:48] Response sent. Server should keep running...
+[2025-03-13 17:25:48] Client 6 disconnected.
+[2025-03-13 17:25:48] Client 6 removed.
+[2025-03-13 17:25:48] Closing client: 6
+[2025-03-13 17:25:48] Accepted client with fd: 6
+[2025-03-13 17:25:48] New client created: 6
+[2025-03-13 17:25:48] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:48] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:48] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:48] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 15
+
+www/favicon.ico
+[2025-03-13 17:25:48] Response sent. Server should keep running...
+[2025-03-13 17:25:48] Client 6 disconnected.
+[2025-03-13 17:25:48] Client 6 removed.
+[2025-03-13 17:25:48] Closing client: 6
+[2025-03-13 17:25:57] Accepted client with fd: 6
+[2025-03-13 17:25:57] New client created: 6
+[2025-03-13 17:25:57] Full request received:
+GET /index.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:57] Retriving Requests GET /index.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:57] Raw HTTP Request from client 6:
+GET /index.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:25:57] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 14
+
+www/index.html
+[2025-03-13 17:25:57] Response sent. Server should keep running...
+[2025-03-13 17:25:57] Error reading from client 6: 
+[2025-03-13 17:25:57] Client 6 removed.
+[2025-03-13 17:25:57] Closing client: 6
+[2025-03-13 17:26:10] Accepted client with fd: 6
+[2025-03-13 17:26:10] New client created: 6
+[2025-03-13 17:26:10] Full request received:
+GET /cgi.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:26:10] Retriving Requests GET /cgi.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:26:10] Raw HTTP Request from client 6:
+GET /cgi.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-13 17:26:10] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 12
+
+www/cgi.html
+[2025-03-13 17:26:10] Response sent. Server should keep running...
+[2025-03-13 17:26:10] Client 6 disconnected.
+[2025-03-13 17:26:10] Client 6 removed.
+[2025-03-13 17:26:10] Closing client: 6
+[2025-03-15 19:33:32] Server started with provided Config file.
+[2025-03-15 19:33:32] Failed: SOCKET!8082
+[2025-03-15 19:33:42] Accepted client with fd: 6
+[2025-03-15 19:33:42] New client created: 6
+[2025-03-15 19:33:42] Full request received:
+GET /cgi.html HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Retriving Requests GET /cgi.html HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Raw HTTP Request from client 6:
+GET /cgi.html HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 12
+
+www/cgi.html
+[2025-03-15 19:33:42] Response sent. Server should keep running...
+[2025-03-15 19:33:42] Client 6 disconnected.
+[2025-03-15 19:33:42] Client 6 removed.
+[2025-03-15 19:33:42] Closing client: 6
+[2025-03-15 19:33:42] Accepted client with fd: 6
+[2025-03-15 19:33:42] New client created: 6
+[2025-03-15 19:33:42] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 15
+
+www/favicon.ico
+[2025-03-15 19:33:42] Response sent. Server should keep running...
+[2025-03-15 19:33:42] Client 6 disconnected.
+[2025-03-15 19:33:42] Client 6 removed.
+[2025-03-15 19:33:42] Closing client: 6
+[2025-03-15 19:33:42] Accepted client with fd: 6
+[2025-03-15 19:33:42] New client created: 6
+[2025-03-15 19:33:42] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:42] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 15
+
+www/favicon.ico
+[2025-03-15 19:33:42] Response sent. Server should keep running...
+[2025-03-15 19:33:42] Client 6 disconnected.
+[2025-03-15 19:33:42] Client 6 removed.
+[2025-03-15 19:33:42] Closing client: 6
+[2025-03-15 19:33:46] Accepted client with fd: 6
+[2025-03-15 19:33:46] New client created: 6
+[2025-03-15 19:33:46] Full request received:
+POST /cgi-bin/test.php HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 17
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=ea&message=r
+[2025-03-15 19:33:46] Retriving Requests POST /cgi-bin/test.php HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 17
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=ea&message=r
+[2025-03-15 19:33:46] Raw HTTP Request from client 6:
+POST /cgi-bin/test.php HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 17
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=ea&message=r
+[2025-03-15 19:33:46] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 20
+
+www/cgi-bin/test.php
+[2025-03-15 19:33:46] Retriving Requests POST /cgi-bin/test.php HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 17
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=ea&message=r
+[2025-03-15 19:33:47] Response sent. Server should keep running...
+[2025-03-15 19:33:47] Client 6 disconnected.
+[2025-03-15 19:33:47] Client 6 removed.
+[2025-03-15 19:33:47] Closing client: 6
+[2025-03-15 19:33:47] Accepted client with fd: 6
+[2025-03-15 19:33:47] New client created: 6
+[2025-03-15 19:33:47] Full request received:
+GET /cgi-bin/favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.php
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:47] Retriving Requests GET /cgi-bin/favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.php
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:47] Raw HTTP Request from client 6:
+GET /cgi-bin/favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.php
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:47] Sending response:
+HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-15 19:33:47] Response sent. Server should keep running...
+[2025-03-15 19:33:47] Error reading from client 6: 
+[2025-03-15 19:33:47] Client 6 removed.
+[2025-03-15 19:33:47] Closing client: 6
+[2025-03-15 19:33:47] Accepted client with fd: 6
+[2025-03-15 19:33:47] New client created: 6
+[2025-03-15 19:33:47] Full request received:
+GET /cgi-bin/favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.php
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:47] Retriving Requests GET /cgi-bin/favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.php
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:47] Raw HTTP Request from client 6:
+GET /cgi-bin/favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.php
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:47] Sending response:
+HTTP/1.1 404 Not Found
+Content-Length: 22
+
+<h1>404 Not Found</h1>
+[2025-03-15 19:33:47] Response sent. Server should keep running...
+[2025-03-15 19:33:47] Error reading from client 6: 
+[2025-03-15 19:33:47] Client 6 removed.
+[2025-03-15 19:33:47] Closing client: 6
+[2025-03-15 19:33:49] Accepted client with fd: 6
+[2025-03-15 19:33:49] New client created: 6
+[2025-03-15 19:33:49] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:49] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:49] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:49] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 15
+
+www/favicon.ico
+[2025-03-15 19:33:49] Response sent. Server should keep running...
+[2025-03-15 19:33:49] Client 6 disconnected.
+[2025-03-15 19:33:49] Client 6 removed.
+[2025-03-15 19:33:49] Closing client: 6
+[2025-03-15 19:33:52] Accepted client with fd: 6
+[2025-03-15 19:33:52] New client created: 6
+[2025-03-15 19:33:52] Full request received:
+POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 18
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=aa&message=ff
+[2025-03-15 19:33:52] Retriving Requests POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 18
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=aa&message=ff
+[2025-03-15 19:33:52] Raw HTTP Request from client 6:
+POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 18
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=aa&message=ff
+[2025-03-15 19:33:52] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 19
+
+www/cgi-bin/test.rb
+[2025-03-15 19:33:52] Retriving Requests POST /cgi-bin/test.rb HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+Content-Length: 18
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Origin: http://localhost:8082
+Content-Type: application/x-www-form-urlencoded
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: http://localhost:8082/cgi.html
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+name=aa&message=ff
+[2025-03-15 19:33:52] Response sent. Server should keep running...
+[2025-03-15 19:33:52] Client 6 disconnected.
+[2025-03-15 19:33:52] Client 6 removed.
+[2025-03-15 19:33:52] Closing client: 6
+[2025-03-15 19:33:53] Accepted client with fd: 6
+[2025-03-15 19:33:53] New client created: 6
+[2025-03-15 19:33:53] Full request received:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.rb
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:53] Retriving Requests GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.rb
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:53] Raw HTTP Request from client 6:
+GET /favicon.ico HTTP/1.1
+Host: localhost:8082
+Connection: keep-alive
+sec-ch-ua-platform: "Linux"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+sec-ch-ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+sec-ch-ua-mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8082/cgi-bin/test.rb
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: ja,en-US;q=0.9,en;q=0.8
+
+
+[2025-03-15 19:33:53] Sending response:
+HTTP/1.1 200 OK
+Content-Length: 15
+
+www/favicon.ico
+[2025-03-15 19:33:53] Response sent. Server should keep running...
+[2025-03-15 19:33:53] Client 6 disconnected.
+[2025-03-15 19:33:53] Client 6 removed.
+[2025-03-15 19:33:53] Closing client: 6

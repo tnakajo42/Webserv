@@ -6,11 +6,11 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:57 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/12 18:42:26 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:21:14 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Logger.hpp"
+#include "Logger.hpp"
 
 std::ofstream Logger::_logFile;
 
@@ -39,7 +39,7 @@ void Logger::log(const std::string &message)
 	}
 }
 
-void Logger::logStr(const std::string &message, std::string& variable)
+void Logger::logStr(const std::string& message, std::string& variable)
 {
 	if (_logFile.is_open())
 	{

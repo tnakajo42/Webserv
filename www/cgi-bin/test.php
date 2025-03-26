@@ -1,180 +1,204 @@
 #!/usr/bin/php-cgi
 <?php
-// Print headers
+ob_start();
+
+// Set headers
 header("Content-Type: text/html");
-echo "\n"; // Empty line to separate headers from body
+echo "\r\n";
+
+// Get raw POST data
+$raw_post_data = file_get_contents("php://input");
 
 // Start HTML output
-echo "<!DOCTYPE html>";
-echo "<html lang='en'>";
-echo "<head>";
-echo "    <meta charset='UTF-8'>";
-echo "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>";
-echo "    <title>Welcome to PHP CGI</title>";
-echo "    <link rel='icon' href='favicon.ico' type='image/x-icon'>";
-echo "    <style>";
-echo "        body {";
-echo "            background: linear-gradient(135deg, #ffffff, #f4f4f4);";
-echo "            color: #000;";
-echo "            font-family: 'Arial', sans-serif;";
-echo "            min-height: 100vh;";
-echo "            margin: 0;";
-echo "            padding: 20px;";
-echo "            display: flex;";
-echo "            flex-direction: column;";
-echo "        }";
-echo "        .container {";
-echo "            max-width: 800px;";
-echo "            margin: 0 auto;";
-echo "            padding: 30px;";
-echo "            background: rgba(255, 255, 255, 0.9);";
-echo "            border-radius: 15px;";
-echo "            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);";
-echo "            flex: 1;";
-echo "        }";
-echo "        h1 {";
-echo "            text-align: center;";
-echo "            color: #00ffcc;";
-echo "            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);";
-echo "            margin-bottom: 40px;";
-echo "        }";
-echo "        .section {";
-echo "            margin-bottom: 40px;";
-echo "            padding: 20px;";
-echo "            border-radius: 10px;";
-echo "            background: rgba(0, 0, 0, 0.1);";
-echo "            transition: transform 0.3s ease;";
-echo "        }";
-echo "        .section:hover {";
-echo "            transform: translateY(-5px);";
-echo "        }";
-echo "        table {";
-echo "            width: 100%;";
-echo "            border-collapse: collapse;";
-echo "            margin-top: 20px;";
-echo "        }";
-echo "        th, td {";
-echo "            padding: 10px;";
-echo "            border: 1px solid rgba(0, 255, 204, 0.3);";
-echo "            text-align: left;";
-echo "        }";
-echo "        th {";
-echo "            background: rgba(0, 255, 204, 0.2);";
-echo "            color: #00ffcc;";
-echo "        }";
-echo "        p {";
-echo "            margin: 10px 0;";
-echo "        }";
-echo "        #themeToggle {";
-echo "            position: fixed;";
-echo "            bottom: 20px;";
-echo "            left: 50%;";
-echo "            transform: translateX(-50%);";
-echo "            padding: 10px 20px;";
-echo "            background: #00ffcc;";
-echo "            color: #000;";
-echo "            border: none;";
-echo "            border-radius: 5px;";
-echo "            font-weight: bold;";
-echo "            cursor: pointer;";
-echo "            transition: all 0.3s ease;";
-echo "        }";
-echo "        #themeToggle:hover {";
-echo "            transform: translateX(-50%) scale(1.05);";
-echo "            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);";
-echo "        }";
-echo "        body.dark-theme {";
-echo "            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);";
-echo "            color: #fff;";
-echo "        }";
-echo "        body.dark-theme .container {";
-echo "            background: rgba(255, 255, 255, 0.1);";
-echo "            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);";
-echo "        }";
-echo "        body.dark-theme .section {";
-echo "            background: rgba(0, 0, 0, 0.2);";
-echo "        }";
-echo "        body.dark-theme th {";
-echo "            background: rgba(0, 255, 204, 0.2);";
-echo "        }";
-echo "    </style>";
-echo "</head>";
-echo "<body>";
-
-// Main container
-echo "    <div class='container'>";
-echo "        <h1>PHP CGI!</h1>";
-
-// POST Data Section
-echo "        <div class='section'>";
-echo "            <h2>Your CGI Submission</h2>";
-echo "            <p>Submitted at: " . date("Y-m-d H:i:s") . "</p>";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST)) {
-        echo "            <table>";
-        echo "                <tr><th>Field</th><th>Value</th></tr>";
-        foreach ($_POST as $field => $value) {
-            echo "                <tr><td>" . htmlspecialchars($field) . "</td><td>" . htmlspecialchars($value) . "</td></tr>";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PHP CGI</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* Your existing CSS unchanged */
+        body {
+            background: linear-gradient(135deg, #ffffff, #f4f4f4);
+            color: #000;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        echo "            </table>";
-    } else {
-        echo "            <p>No POST data received</p>";
-    }
-} else {
-    echo "            <p>This page expects a POST request. Use the form to submit data!</p>";
-}
-echo "        </div>";
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+        h1 {
+            text-align: center;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            margin-bottom: 40px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            text-align: left;
+        }
+        th {
+            background: rgba(0, 255, 204, 0.2);
+            color: #00ffcc;
+        }
+        p {
+            margin: 10px 0;
+        }
+        #themeToggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: #00ffcc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #themeToggle:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+        }
+        body.dark-theme .container {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        body.dark-theme .section {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        body.dark-theme th {
+            background: rgba(0, 255, 204, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PHP CGI!</h1>
 
-// Environment Variables Section
-echo "        <div class='section'>";
-echo "            <h2>CGI Environment Variables</h2>";
-echo "            <table>";
-echo "                <tr><th>Variable</th><th>Value</th></tr>";
-ksort($_SERVER);
-foreach ($_SERVER as $key => $value) {
-    echo "                <tr><td>" . htmlspecialchars($key) . "</td><td>" . htmlspecialchars($value) . "</td></tr>";
-}
-echo "            </table>";
-echo "        </div>";
+        <!-- Submission Section -->
+        <div class="section">
+            <h2>Your CGI Submission</h2>
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Parsed POST Data
+                echo "<h3>Parsed POST Data:</h3>";
+                if (!empty($_POST)) {
+                    echo "<table>";
+                    echo "<tr><th>Field</th><th>Value</th></tr>";
+                    foreach ($_POST as $field => $value) {
+                        echo "<tr><td>" . htmlspecialchars($field) . "</td><td>" . htmlspecialchars($value) . "</td></tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    // Fallback: Manually parse raw data if $_POST is empty
+                    $parsed_data = [];
+                    parse_str($raw_post_data, $parsed_data);
+                    if (!empty($parsed_data)) {
+                        echo "<table>";
+                        echo "<tr><th>Field</th><th>Value</th></tr>";
+                        foreach ($parsed_data as $field => $value) {
+                            echo "<tr><td>" . htmlspecialchars($field) . "</td><td>" . htmlspecialchars($value) . "</td></tr>";
+                        }
+                        echo "</table>";
+                    } else {
+                        echo "<p>No parsed POST data received</p>";
+                    }
+                }
+            } else {
+                echo "<p>This page expects a POST request. Use the form to submit data!</p>";
+            }
+            ?>
+        </div>
 
-// After the environment variables section, before </div class='container'>
-echo "        <div class='section'>";
-echo "            <a href='/cgi.html' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Back to Form</a>";
-echo "        </div>";
-echo "    </div>";
+        <!-- Environment Variables Section -->
+        <div class="section">
+            <h2>CGI Environment Variables</h2>
+            <p>Submitted at: <?php echo date("Y-m-d H:i:s"); ?></p>
+            <table>
+                <tr><th>Variable</th><th>Value</th></tr>
+                <?php
+                ksort($_SERVER);
+                foreach ($_SERVER as $key => $value) {
+                    echo "<tr><td>" . htmlspecialchars($key) . "</td><td>" . htmlspecialchars($value) . "</td></tr>";
+                }
+                ?>
+            </table>
+        </div>
 
-// Theme Toggle Button
-echo "    <button id='themeToggle' onclick='toggleTheme()'>Switch to Dark Mode</button>";
+        <!-- Back to Form Link -->
+        <div class="section">
+            <a href="/cgi.html" style="display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;">Back to Form</a>
+        </div>
+    </div>
 
-// JavaScript for theme toggle
-echo "    <script>";
-echo "        function toggleTheme() {";
-echo "            const body = document.body;";
-echo "            const button = document.getElementById('themeToggle');";
-echo "            body.classList.toggle('dark-theme');";
-echo "            if (body.classList.contains('dark-theme')) {";
-echo "                button.textContent = 'Switch to Light Mode';";
-echo "                localStorage.setItem('theme', 'dark');";
-echo "            } else {";
-echo "                button.textContent = 'Switch to Dark Mode';";
-echo "                localStorage.setItem('theme', 'light');";
-echo "            }";
-echo "        }";
-echo "        function loadTheme() {";
-echo "            const savedTheme = localStorage.getItem('theme');";
-echo "            const body = document.body;";
-echo "            const button = document.getElementById('themeToggle');";
-echo "            if (savedTheme === 'dark') {";
-echo "                body.classList.add('dark-theme');";
-echo "                button.textContent = 'Switch to Light Mode';";
-echo "            } else {";
-echo "                body.classList.remove('dark-theme');";
-echo "                button.textContent = 'Switch to Dark Mode';";
-echo "            }";
-echo "        }";
-echo "        document.addEventListener('DOMContentLoaded', loadTheme);";
-echo "    </script>";
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" onclick="toggleTheme()">Switch to Dark Mode</button>
 
-echo "</body>";
-echo "</html>";
+    <!-- JavaScript for Theme Toggle -->
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.getElementById('themeToggle');
+            body.classList.toggle('dark-theme');
+            if (body.classList.contains('dark-theme')) {
+                button.textContent = 'Switch to Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                button.textContent = 'Switch to Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const button = document.getElementById('themeToggle');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                button.textContent = 'Switch to Light Mode';
+            } else {
+                body.classList.remove('dark-theme');
+                button.textContent = 'Switch to Dark Mode';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadTheme);
+    </script>
+</body>
+</html>
+<?php
+ob_end_flush();
 ?>

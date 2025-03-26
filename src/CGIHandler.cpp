@@ -6,21 +6,23 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:48 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/12 19:32:37 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/24 11:09:00 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/CGIHandler.hpp"
-#include "../include/Response.hpp"
+#include "CGIHandler.hpp"
+#include "Response.hpp"
 
 CGIHandler::CGIHandler() {}
 CGIHandler::~CGIHandler() {}
 
-Response CGIHandler::executeCGI(const Request &request)
+Response CGIHandler::executeCGI(const Request &req, Client& client, ConfigParser& config)
 {
-	Response response;
-	int pipe_fd[2];
+	std::string	requestData = client.getRequest();
+	Request		request = req;
+	Response	response;
 
+	int pipe_fd[2];
 	if (pipe(pipe_fd) == -1)
 	{
 		Logger::log("Failed to create pipe");
@@ -28,9 +30,7 @@ Response CGIHandler::executeCGI(const Request &request)
 		response.setBody("Internal Server Error: CGI execution failed");
 		return response;
 	}
-
 	pid_t pid = fork();
-
 	if (pid == -1)
 	{
 		Logger::log("Failed to fork process");
@@ -40,81 +40,94 @@ Response CGIHandler::executeCGI(const Request &request)
 		response.setBody("Internal Server Error: CGI execution failed");
 		return response;
 	}
-
-	if (pid == 0)
-	{  // Child process
+	if (pid == 0) {  // Child process
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		
+		if (request.getMethod() == "GET" && !request.getBody().empty())
+		{
+			std::cout << "this is GET" << std::endl;
+		}
 		if (request.getMethod() == "POST" && !request.getBody().empty())
 		{
 			int stdin_pipe[2];
-			pipe(stdin_pipe);
-			dup2(stdin_pipe[0], STDIN_FILENO);
+			if (pipe(stdin_pipe) == -1) {
+				std::cerr << "Failed to create stdin pipe: " << strerror(errno) << std::endl;
+				exit(1);
+			}
+			if (dup2(stdin_pipe[0], STDIN_FILENO) == -1) {
+				std::cerr << "Failed to dup2 stdin: " << strerror(errno) << std::endl;
+				exit(1);
+			}
 			close(stdin_pipe[0]);
-			write(stdin_pipe[1], request.getBody().c_str(), request.getBody().size());
+			// std::cerr << "----> Writing POST Body to stdin: " << request.getBody() << std::endl;
+			ssize_t bytes_written = write(stdin_pipe[1], request.getBody().c_str(), request.getBody().size());
+			if (bytes_written == -1) {
+				std::cerr << "Failed to write to stdin: " << strerror(errno) << std::endl;
+				exit(1);
+			}
 			close(stdin_pipe[1]);
+		} else if (request.getMethod() == "POST") {
+			std::cerr << "Warning: POST request but body is empty!" << std::endl;
 		}
-		
+	
 		std::map<std::string, std::string> env = setupCGIEnvironment(request);
 		char **envp = createEnvp(env);
 		std::string scriptPath = getCGIScriptPath(request);
-		
-		// std::cout << "Child - Executing: /usr/bin/python3 " << scriptPath << std::endl;
 		const char *interpreter;
 		if (scriptPath.find(".php") != std::string::npos)
-			interpreter = "/usr/bin/php-cgi"; // Path to PHP CGI interpreter
+			interpreter = "/usr/bin/php-cgi";
 		else if (scriptPath.find(".py") != std::string::npos)
 			interpreter = "/usr/bin/python3";
 		else if (scriptPath.find(".rb") != std::string::npos)
 			interpreter = "/usr/bin/ruby";
-		else
-		{
+		else {
 			std::cerr << "Unknown script type: " << scriptPath << std::endl;
 			exit(1);
 		}
-		
 		std::cout << "Child - Executing: " << interpreter << " " << scriptPath << std::endl;
-		
 		const char *args[] = {interpreter, scriptPath.c_str(), NULL};
 		execve(args[0], (char *const *)args, envp);
-		
 		std::cerr << "execve failed: " << strerror(errno) << std::endl;
-		
 		for (int i = 0; envp[i] != NULL; i++)
 			delete[] envp[i];
 		delete[] envp;
 		exit(1);
 	}
 	else
-	{  // Parent process
-		close(pipe_fd[1]);
+	{
 		char buffer[4096];
 		std::string output;
 		ssize_t bytesRead;
+		int status;
+
+		// Parent process
+		close(pipe_fd[1]);
 		while ((bytesRead = read(pipe_fd[0], buffer, sizeof(buffer) - 1)) > 0)
 		{
 			buffer[bytesRead] = '\0';
 			output += buffer;
 		}
-		std::cout << "Parent - CGI Output: " << output << std::endl;
-		close(pipe_fd[0]);
-		int status;
 		waitpid(pid, &status, 0);
+		close(pipe_fd[0]);
+        // Log the raw output for debugging
+        Logger::logStr("Raw CGI Output:\n", output); // Taka add here
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
-			parseCGIOutput(output, response);
+			parseCGIOutput(output, response); // Taka add here
 		else
 		{
-			std::cout << "CGI failed with exit status: " << WEXITSTATUS(status) << std::endl;
-			response.setStatusCode(500);
-			response.setBody("Internal Server Error: CGI script execution failed");
+				request.parseRequest(requestData);
+				Router	router;
+				response = router.routeRequest(request, config);
+				std::string httpResponse = response.buildResponse();
+				response.setStatusCode(500);
 		}
 	}
 	return response;
 }
 
-std::map<std::string, std::string> CGIHandler::setupCGIEnvironment(const Request &request)
+std::map<std::string, std::string>	CGIHandler::setupCGIEnvironment(const Request &request)
 {
 	std::map<std::string, std::string> env;
 
@@ -127,27 +140,23 @@ std::map<std::string, std::string> CGIHandler::setupCGIEnvironment(const Request
 	env["QUERY_STRING"] = request.getQueryString();
 	env["CONTENT_TYPE"] = request.getHeader("Content-Type");
 	env["CONTENT_LENGTH"] = request.getHeader("Content-Length");
+	env["REDIRECT_STATUS"] = "200";
+	env["SCRIPT_FILENAME"] = getCGIScriptPath(request);
 
-	std::string path = request.getPath();
-	if (path.find(".php") != std::string::npos)
-	{
-		env["REDIRECT_STATUS"] = "200";
-		env["SCRIPT_FILENAME"] = getCGIScriptPath(request);
-	}
-
+	// Convert headers to HTTP_ prefixed variables
 	std::map<std::string, std::string> headers = request.getHeaders();
-	for (std::map<std::string, std::string>::const_iterator it = headers.begin();
-		 it != headers.end(); ++it)
+	for (std::map<std::string, std::string>::const_iterator it = headers.begin(); it != headers.end(); ++it)
 	{
 		std::string name = "HTTP_" + it->first;
 		for (size_t i = 0; i < name.length(); i++)
 		{
-			if (name[i] == '-') name[i] = '_';
-			else name[i] = std::toupper(name[i]);
+			if (name[i] == '-')
+				name[i] = '_';
+			else
+				name[i] = std::toupper(name[i]);
 		}
 		env[name] = it->second;
 	}
-
 	return env;
 }
 
@@ -156,17 +165,15 @@ char** CGIHandler::createEnvp(const std::map<std::string, std::string> &env)
 	char **envp = new char*[env.size() + 1];
 	int i = 0;
 
-	for (std::map<std::string, std::string>::const_iterator it = env.begin();
-		 it != env.end(); ++it)
+	for (std::map<std::string, std::string>::const_iterator it = env.begin(); it != env.end(); ++it)
 	{
 		std::string entry = it->first + "=" + it->second;
 		envp[i] = new char[entry.length() + 1];
 		std::strcpy(envp[i], entry.c_str());
 		i++;
 	}
-
 	envp[i] = NULL;
-return envp;
+	return envp;
 }
 
 std::string CGIHandler::getCGIScriptPath(const Request &request)
@@ -190,6 +197,7 @@ void CGIHandler::parseCGIOutput(const std::string &output, Response &response)
 	if (response.getHeader("Connection").empty())
 		response.setHeader("Connection", "keep-alive");
 	// Find the boundary between headers and body (empty line)
+
 	size_t headerEnd = output.find("\r\n\r\n");
 	if (headerEnd == std::string::npos)
 	{
@@ -241,48 +249,3 @@ void CGIHandler::parseCGIOutput(const std::string &output, Response &response)
 		response.setHeader("Content-Type", "text/html");
 	response.setBody(body);
 }
-
-/*
-Response CGIHandler::executeCGI(const Request &request)
-{
-	(void)request;  // Suppress warning if request isn't used
-
-	const char *args[] = {"/usr/bin/python3", "-u", NULL};  // Fix: use const char*
-	execve(args[0], (char *const *)args, NULL);
-	std::cout << "-->HERE" << std::endl;
-	Logger::log("execve failed");
-	std::cerr << "execve failed" << std::endl;
-	exit(1);  // Fix: use exit() from <cstdlib>
-}
-
-Response CGIHandler::executeCGI(const Request &request)
-{
-    Response response;
-    int pipe_fd[2];
-    pipe(pipe_fd);
-
-	(void)request;
-    pid_t pid = fork();
-    if (pid == 0) {  // Child process
-        dup2(pipe_fd[1], STDOUT_FILENO);
-        close(pipe_fd[0]);
-        
-        const char *args[] = {"/usr/bin/python3", "-u", NULL};
-        execve(args[0], args, NULL);
-        exit(1);
-    } else {  // Parent process
-        close(pipe_fd[1]);
-        
-        char buffer[1024];
-        int bytesRead = read(pipe_fd[0], buffer, sizeof(buffer));
-        buffer[bytesRead] = '\0';
-
-        response.setBody(std::string(buffer));
-        response.setHeader("Content-Type", "text/html");
-
-        waitpid(pid, NULL, 0);
-    }
-
-    return response;
-}
-*/

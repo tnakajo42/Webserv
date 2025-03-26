@@ -132,7 +132,31 @@
     </style>
 </head>
 <body>
+	<div class='section'>
+		<a href='/index6.html' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>HOME</a>
+	</div>
     <div class="container">
+        <h1></h1><h1></h1>
+        <hr><hr><h1></h1>
+		<h1>GET</h1>
+		<hr><hr><h1></h1>
+        <form action="/cgi-bin/test_get.py" method="GET">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" placeholder="Type your message here"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+        <h1></h1><h1></h1>
+        <hr><hr><h1></h1>
+		<h1>POST</h1>
+		<hr><hr><h1></h1>
         <h1>PHP FORM</h1>
         <form action="/cgi-bin/test.php" method="post">
             <div class="form-group">
@@ -177,7 +201,32 @@
                 <input type="submit" value="Submit">
             </div>
         </form>
+		<h1></h1><hr>
+		<h1>ERROR FORM</h1>
+        <form action="/cgi-bin/test" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" placeholder="Type your message here"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+        <h1></h1><h1></h1>
+        <hr><hr><h1></h1>
+		<h1>Bonus Part</h1>
+		<hr><hr><h1></h1>
+        <div class='section'>
+            <a href='/cgi-bin/bonus2.py' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Taka Cookie (py)</a>
+            <br></br><a href='/cgi-bin/bonus_sample.py' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Carlos Cookie (py)</a>
+            <br></br><a href='/cgi-bin/bonus.php' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Session & Cookie (php)</a>
+        </div>
     </div>
+
 
     <button id="themeToggle" onclick="toggleTheme()">Switch to Dark Mode</button>
 

@@ -3,30 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
+/*   By: tnakajo <nj.takayuki@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:23:19 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/06 16:39:27 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:13:03 by tnakajo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Client.hpp"
+#include "Client.hpp"
 
 Client::Client(int fd)
-:	_fd(fd)
+:	_fd(fd), _totalRecevied(0) {}
+
+Client& Client::operator=(const Client& other)
 {
-	std::ostringstream oss;
-	oss << "New client created: " << _fd;
-	Logger::log(oss.str());
-	std::cout << "New client created: " << _fd << std::endl;
+	if (this != &other)
+	{
+		_fd = other._fd;
+		_request = other._request;
+		_totalRecevied = other._totalRecevied;
+	}
+	return *this;
 }
 
 Client::~Client()
 {
-	std::ostringstream oss;
-	oss << "Closing client: " << _fd;
-	Logger::log(oss.str());
-	std::cout << "Closing client: " << _fd << std::endl;
 	close(_fd);
 }
 
@@ -48,63 +49,52 @@ bool Client::readData()
 		totalRecevied += bytesRead;
 		_totalRecevied = totalRecevied;
 		
-	// Check if we've reached the end of the HTTP request (double newline)
+		// Check if we've reached the end of the HTTP request (double newline)
 		if (_request.find("\r\n\r\n") != std::string::npos) 
-		{
-			std::ostringstream oss;
-			oss << "Full request received:\n" << _request;
-			Logger::log(oss.str());
-			std::cout << "Full request received:\n" << _request << std::endl;
 			return true;
-		}
 	}
 	// Handle client disconnect or error:
 	if (bytesRead == 0)
 	{
-		std::ostringstream oss;
-		oss << "Client " << _fd << " disconnected.";
-		Logger::log(oss.str());
-		std::cout << "Client " << _fd << " disconnected." << std::endl;
+		//Logger::logInt("Client disconnected: ", _fd);
+		// std::cout << "Client " << _fd << " disconnected." << std::endl;
 		return false;
 	}
 	else if (bytesRead == -1)
 	{
-		std::ostringstream oss;
-		oss << "Error reading from client " << _fd << ": ";
-		Logger::log(oss.str());
-		std::cerr << "Error reading from client " << _fd << ": " << std::endl;
+		//Logger::logInt("Error reading from client: ", _fd);
+		// std::cerr << "Error reading from client " << _fd << ": " << std::endl;
 		return false;
 	}
 	return false;
 }
 
 
-void	Client::sendData(const std::string &response)
+bool	Client::sendData(const std::string &response)
 {
 	ssize_t bytesSent = send(_fd, response.c_str(), response.length(), 0);
-	if (bytesSent == -1)
+	if (bytesSent < 0)
 	{
-		std::ostringstream oss;
-		oss << "Error sending data to client with SEND FT" << _fd << ": ";
-		Logger::log(oss.str());
-		std::cerr << "Error sending data to client with SEND FT" << _fd << ": " << std::endl;
+		//Logger::logInt("Error sending data to client with SEND FT: ", _fd);
+		// std::cerr << "Error sending data to client with SEND FT" << _fd << ": " << std::endl;
+		if (errno == EAGAIN || errno == EWOULDBLOCK)
+			return false; // Try again later
+		return true; // Error, should close connection
 	}
 	else
 	{
-		std::ostringstream oss1;
-		oss1 << "Sent data to client " << _fd << ": " << response;
-		Logger::log(oss1.str());
-		std::cout << "Sent data to client " << _fd << ": " << response << std::endl;
+		//Logger::logInt("Sent data to client: ", _fd);
+		// std::cout << "Sent data to client " << _fd << ": " << response << std::endl;
+		_totalRecevied += bytesSent; // Update progress
+        return (_totalRecevied >= response.size());
 	}
 }
 
 std::string Client::getRequest() const
 {
-	
-	std::ostringstream oss;
-	oss << "Retriving Requests " << _request;
-	Logger::log(oss.str());
-	std::cout << "Retriving Requests " << _request << std::endl;
+	std::string	req = _request;
+	//Logger::logStr("Retriving Requests ", req);
+	// std::cout << "Retriving Requests " << _request << std::endl;
 	return _request;  // Allow Server to access the raw request
 }
 

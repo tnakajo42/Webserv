@@ -6,11 +6,11 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:19:30 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/13 15:42:57 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:30:30 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ConfigParser.hpp"
+#include "ConfigParser.hpp"
 
 int stringToIntConfigParser(const std::string& str)
 {
@@ -20,6 +20,9 @@ int stringToIntConfigParser(const std::string& str)
 	return result;
 	return -1;
 }
+
+ConfigParser::ConfigParser()
+{}
 
 ConfigParser::ConfigParser(const std::string& configPath)
 {
@@ -40,6 +43,9 @@ ConfigParser::ConfigParser(const std::string& configPath)
 		else
 			throw std::runtime_error("Error: A Config File Value is missing.");
 	}
+	_get = false;
+	_post = false;
+	_delete = false;
 	if (!checkKeys() ||	!checkValues())
 		throw std::runtime_error("Error: Config File incorrect.");
 }
@@ -71,7 +77,10 @@ bool	ConfigParser::checkKeys()
 			continue;
 		else
 		{
-			std::cerr << "Unkown Key: " << it->first << std::endl;
+			if (!it->first.empty())
+				std::cerr << "Unkown Key: " << it->first << std::endl;
+			else
+			std::cerr << "Unkown Key." << std::endl;
 			return false;
 		}
 	}
@@ -96,7 +105,7 @@ bool	ConfigParser::checkValues()
 		return	false;
 	if (!parseMethods())
 		return false;
-	return		true;
+	return true;
 }
 
 int		ConfigParser::getType()
@@ -124,7 +133,7 @@ bool	ConfigParser::morePorts(std::string& ports)
 			
 		if (portInt <= 0 || portInt > 65535)
 		{
-			std::cerr << "Port is not within range 0 to 65535 ->" << portInt << std::endl;
+			std::cerr << "Port is not within range 0 to 65535: " << portInt << std::endl;
 			return false;
 		}
 		_ports.push(portInt);
@@ -310,11 +319,13 @@ int ConfigParser::getMaxBodySize() const
 
 std::string ConfigParser::getCgiPath() const
 {
-	return _settings.at("cgi_python");
+	std::string		rootPath	= _settings.at("root");
+	return rootPath + _settings.at("cgi_python");
 }
 
 std::string ConfigParser::getUploadDir() const
 {
+	// std::string		rootPath	= _settings.at("root");
 	return _settings.at("upload_dir");
 }
 
@@ -331,16 +342,19 @@ bool	ConfigParser::parseMethods()
 		if (methodsStr == "GET")
 		{
 			get++;
+			_get = true;
 			_methods.push(methodsStr);
 		}
 		else if (methodsStr == "POST")
 		{
 			post++;
+			_post = true;
 			_methods.push(methodsStr);
 		}
 		else if (methodsStr == "DELETE")
 		{
 			del++;
+			_delete = true;
 			_methods.push(methodsStr);
 		}
 		else
@@ -349,202 +363,22 @@ bool	ConfigParser::parseMethods()
 			return false;
 		}
 	}
-	if (get != 1 || post != 1 || del != 1)
-	{
-		std::cerr << "Methods do not include GET,POST and DELETE." << std::endl;		
-		return false;
-	}
+	// if (get != 1 || post != 1 || del != 1)
+	// {
+	// 	std::cerr << "Methods do not include GET,POST and DELETE." << std::endl;		
+	// 	return false;
+	// }
 	return true;
 }
 
-// int stringToIntConfigParser(const std::string& str)
-// {
-// 	std::stringstream ss(str);
-// 	int result;
-// 	if (ss >> result)
-// 		return result;
-// 	return -1;
-// }
 
-// ConfigParser::ConfigParser(const std::string& configPath)
-// {
-// 	std::ifstream file(configPath.c_str());
-// 	std::string line;
-// 	while (std::getline(file, line))
-// 	{
-// 		std::istringstream iss(line);
-// 		std::string key, value;
-// 		if (std::getline(iss, key, '='))
-// 			_settings[key];
-// 		if (std::getline(iss, value) && !value.empty())
-// 		_settings[key] = value;
-// 		else
-// 			_settings[key] = "empty";
-// 	}
-// }
-
-// bool	ConfigParser::configChecker()
-// {
-// 	if (getPort() == -1)
-// 		return false;
-// 	getHost();
-// 	std::string	result = getRoot();
-// 	if (result == "false")
-// 		return false;
-// 	if (getIndex() == "false")
-// 		return false;
-// 	if (getErrorPage() == "false")
-// 		return false;
-// 	if (getbodySize() == -1)
-// 		return false;
-// 	if (getCgiPath() == "false")
-// 		return false;
-// 	if (getUploadDir() == "false")
-// 		return false;
-// 	return true;
-// }
-
-// ConfigParser::~ConfigParser()
-// {}
-
-// int ConfigParser::getPort() const
-// {
-// 	try
-// 	{
-// 		std::string portStr = _settings.at("port");
-// 		if (_settings.at("port") == "empty")
-// 			return -1;
-// 		for (int i = 0; portStr[i]; ++i)
-// 		{
-// 			if (!isdigit(portStr[i]))
-// 				return -1;
-// 		}
-	
-// 		int	portInt = stringToIntConfigParser(_settings.at("port"));
-		
-// 		if (portInt <= 0 || portInt > 65535)
-// 			return -1;
-// 		return portInt;
-// 	}
-// 	catch (const std::out_of_range& ex)
-// 	{
-// 		return -1;
-// 	}
-// }
-
-// bool validateAndConvertHost(const std::string &host, struct in_addr &addr)
-// {
-// 	if (inet_pton(AF_INET, host.c_str(), &addr) == 1)
-// 	{
-// 		return true;  // Valid IPv4
-// 	}
-// 	else if (inet_pton(AF_INET6, host.c_str(), &addr) == 1)
-// 	{
-// 		std::cout << "Error here!!!!!!!!!!!!!!!!!!!!\n";
-// 		return true;  // Valid IPv6
-// 	}
-// 	else
-// 	{
-// 		std::cerr << "Invalid host IP: " << host << " Error: " << strerror(errno) << std::endl;
-// 		return false; // Invalid IP
-// 	}
-// }
-
-// struct in_addr ConfigParser::getHost() const
-// {
-// 	try
-// 	{
-// 		struct in_addr ipAddr;
-		
-// 		if (!validateAndConvertHost(_settings.at("host"), ipAddr))
-// 		{
-// 			std::cerr << "Invalid IP in config. Exiting...\n";
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		return ipAddr;
-// 	}
-// 	catch(const std::exception& e)
-// 	{
-// 		std::cerr << "No host key in config file. Exiting...\n";
-// 		exit(EXIT_FAILURE);
-// 	}
-	
-// }
-
-// std::string ConfigParser::getRoot() const
-// {
-// 	if ((_settings.find("root") != _settings.end()) && _settings.at("root") != "empty")
-// 	{
-// 		std::string rootStr = _settings.at("root");
-// 		return rootStr;
-// 	}
-// 	else
-// 		return "false";
-// }
-
-// std::string ConfigParser::getIndex() const
-// {
-// 	try
-// 	{
-// 		std::string indexStr = _settings.at("index");
-// 		if (_settings.at("index") == "empty")
-// 			return "false";
-// 	}
-// 	catch (const std::out_of_range& ex)
-// 	{
-// 		return "false";
-// 	}
-// 	return _settings.at("index");
-// }
-
-// std::string ConfigParser::getErrorPage() const
-// {
-// 	try
-// 	{
-// 		std::string errorStr = _settings.at("error_page_404");
-// 		if (_settings.at("error_page_404") == "empty")
-// 			return "false";
-// 	}
-// 	catch (const std::out_of_range& ex)
-// 	{
-// 		return "false";
-// 	}
-// 	return _settings.at("error_page_404");
-// }
-
-// int ConfigParser::getbodySize() const
-// {
-// 	try
-// 	{
-// 		std::string client_max_body_sizeStr = _settings.at("client_max_body_size");
-// 		if (_settings.at("client_max_body_size") == "empty")
-// 			return -1;
-// 		for (int i = 0; client_max_body_sizeStr[i]; ++i)
-// 		{
-// 			if (!isdigit(client_max_body_sizeStr[i]))
-// 				return -1;
-// 		}
-	
-// 		int	client_max_body_sizeInt = stringToIntConfigParser(_settings.at("client_max_body_size"));
-		
-// 		if (client_max_body_sizeInt < 1 || client_max_body_sizeInt >= 2147483647)
-// 			return -1;
-// 		return client_max_body_sizeInt;
-// 	}
-// 	catch (const std::out_of_range& ex)
-// 	{
-// 		return -1;
-// 	}
-
-// 	return stringToIntConfigParser("client_max_body_size");
-// }
-
-// std::string ConfigParser::getCgiPath() const
-// {
-// 	return _settings.at("cgi_python");
-// }
-
-// std::string ConfigParser::getUploadDir() const
-// {
-// 	return _settings.at("upload_dir");
-// }
+bool	ConfigParser::getMethod(const std::string& type)
+{
+	if (type == "GET")
+		return _get;
+	if (type == "POST")
+		return _post;
+	if (type == "DELETE")
+		return _delete;
+	return false;
+}

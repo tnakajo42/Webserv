@@ -18,8 +18,9 @@
 #include "CGIHandler.hpp"
 #include "Logger.hpp"
 #include <arpa/inet.h>
+#include <iomanip>
 
-#define MAX_EVENTS 10
+#define MAX_EVENTS 1000
 
 class Server
 {
@@ -34,9 +35,11 @@ class Server
 		ConfigParser			_config;
 		std::vector<int>		_sockets;
 
-		void setupServer();
-		void handleNewConnection();
-		void handleClientRequest(int clientFd);
+		void					setupServer();
+		void					createEpoll();
+		void					handleNewConnection();
+		void					handleClientRequest(int clientFd);
+		void					sendClientResponse(int clientFd);
 
 	public:
 		Server(const std::string& configPath);

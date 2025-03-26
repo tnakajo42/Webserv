@@ -1,11 +1,29 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Server</title>
+	<link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <h1>Welcome to my C++ web server!</h1>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool Image Vault</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- <link rel="stylesheet" href="css/style.css" type="text/css"> -->
+    <title>About Us</title> -->
+	
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Cool Image Vault</title>
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <style>
         body {
             background: linear-gradient(135deg, #ffffff, #f4f4f4);
@@ -62,7 +80,7 @@
             padding: 10px 20px;
             background: #00ffcc;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             color: #000;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -72,6 +90,11 @@
         button:hover {
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+        .buttons {
+            position: fixed;
+            top: 50%;
+            left: 46%;
         }
 
         .status {
@@ -167,113 +190,24 @@
         }
 
     </style>
+	
 </head>
 <body>
-	<!-- <div class='section'>
-		<a href='/index2.html' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>ABOUT US</a>
-	</div> -->
     <div class="container">
-        <h1>TAKA_SAN and CARLOS<br>WEBSITE!!!!!!</br></h1>
-        
-        <div class="section">
-            <h2><center>Upload Zone</center></h2>
-            <input type="file" id="fileInput" accept="image/*" onchange="previewImage()">
-            <button onclick="uploadFile()">Upload Now</button>
-            <div class="preview-container">
-                <img id="preview" alt="Image preview" style="display: none; max-width: 200px; margin-top: 10px;">
-            </div>
-            <p id="status" class="status"></p>
+        <h1>About Us</h1>
+        <div class="content">
+            <p>Welcome to our website! We are TAKA_SAN and CARLOS_SAMA, we are passionate developers dedicated in building a COOL WEBSERVER. Our mission is to create engaging, user-friendly experiences while PASSING THE EVALUATION FOR THIS PROJECT.</p>
+            <p>Here, you can UPLOAD and DELETE images easily. (No big deal) also you can run other exciting scripts (Which are actually not too exciting). Nevertheless we test PHP, Python and Ruby scripts.</p>
+            <p>Thanks for visiting our site or EVALUATING it. Stay tuned for more updates! Or better don't be so tune for problems in the SERVER 😀 Thanks</p>
         </div>
         
-        <div class="section">
-            <h2><center>Delete Zone</center></h2>
-            <input type="text" id="deleteInput" placeholder="Enter filename to delete">
-            <button onclick="deleteFile()">Delete Now</button>
-            <p id="deleteStatus" class="status"></p>
+        <div class="buttons">
+            <button class="home-btn" onclick="window.location.href='index6.html'">Home</button>
         </div>
-
-		<div class='section'>
-			<a href='/about.html' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>ABOUT US</a>
-			<br></br><a href='/cgi.html' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Go CGI Test</a>
-            <br></br><a href='/testdir' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>List</a>
-            <br></br><a href='/home' style='display: inline-block; padding: 10px 20px; background: #00ffcc; color: #000; text-decoration: none; border-radius: 5px; transition: all 0.3s ease;'>Magic</a>
-		</div>
     </div>
-
-    <button id="themeToggle" onclick="toggleTheme()">Switch to Dark Mode</button>
-    
-    <script>
-        function previewImage() {
-            const fileInput = document.getElementById('fileInput');
-            const preview = document.getElementById('preview');
-            
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            }
-        }
-        
-        function showStatus(elementId, message, isSuccess) {
-            const status = document.getElementById(elementId);
-            status.textContent = message;
-            status.style.display = 'block';
-            status.classList.remove('success', 'error');
-            status.classList.add(isSuccess ? 'success' : 'error');
-            setTimeout(() => status.style.display = 'none', 3000);
-        }
-
-        async function uploadFile() {
-            const fileInput = document.getElementById('fileInput');
-            if (fileInput.files.length === 0) {
-                showStatus('status', 'Please select an image!', false);
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file, file.name);
-
-            try {
-                const response = await fetch('/uploads', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.text();
-                showStatus('status', data, true);
-                fileInput.value = '';
-                document.getElementById('preview').style.display = 'none';
-            } catch (error) {
-                showStatus('status', 'Upload failed!', false);
-                console.error(error);
-            }
-        }
-        async function deleteFile() {
-            const filename = document.getElementById('deleteInput').value;
-            if (!filename) {
-                showStatus('deleteStatus', 'Please enter a filename!', false);
-                return;
-            }
-
-            try {
-                const response = await fetch('/uploads/' + filename, {
-                    method: 'DELETE'
-                });
-                const data = await response.text();
-                showStatus('deleteStatus', data, true);
-                document.getElementById('deleteInput').value = '';
-            } catch (error) {
-                showStatus('deleteStatus', 'Delete failed!', false);
-                console.error(error);
-            }
-        }
-
-        // light/dark toggle
-        // At the start of your script tag, add this function to load the saved theme
-        function loadTheme() {
+	<button id="themeToggle" onclick="toggleTheme()">Switch to Dark Mode</button>
+	<script>
+		        function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
             const button = document.getElementById('themeToggle');

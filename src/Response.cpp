@@ -6,18 +6,18 @@
 /*   By: cadenegr <neo_dgri@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:08:29 by cadenegr          #+#    #+#             */
-/*   Updated: 2025/03/10 12:04:12 by cadenegr         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:07:09 by cadenegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Response.hpp"
+#include "Response.hpp"
 
 Response::Response()
 :	_statusCode(200)
 {}
 
-Response::Response(int status, const std::string& message)
-:	_statusCode(status), _statusMessage(message)
+Response::Response(int status, const std::string& message, ConfigParser& config)
+:	_statusCode(status), _statusMessage(message), _config(config)
 {}
 
 Response::~Response()
@@ -26,6 +26,11 @@ Response::~Response()
 void			Response::setStatusCode(int code)
 {
 	_statusCode = code;
+}
+
+void			Response::setStatusMessage(int code)
+{
+	_statusMessage = code;
 }
 
 void			Response::setHeader(const std::string &key, const std::string &value)
@@ -38,25 +43,32 @@ void			Response::setBody(const std::string &body)
 	_body = body;
 }
 
+// std::string		Response::buildResponseParameters(int status_code, std::string& content, std::string& content_type)
+// {
+// 	_statusCode = status_code;
+// 	_body = content;
+// 	_statusMessage = content_type;
+	
+
+// 	std::ostringstream	response;
+// 	response << "HTTP/1.1 " << _statusCode << " " << _statusMessage << "\r\n"; // add error handling
+// 	response << "Content-Type: " << "text/html" << "\r\n";
+// 	response << "Content-Length: " << _body.size() << "\r\n";
+// 	response << "Connection: close\r\n\r\n";
+// 	response << _body;
+// 	return response.str();
+// }
+
+
 std::string		Response::buildResponse() const
 {
-	std::stringstream ss;
-	ss << _statusCode;
-	std::string statusMessage = getStatusMessage();
-	std::string response = "HTTP/1.1 " + ss.str() + " " + statusMessage + "\r\n";
-
-	// Add all headers
-	std::map<std::string, std::string>::const_iterator it;
-	for (it = _headers.begin(); it != _headers.end(); ++it)
-	{
-		response += it->first + ": " + it->second + "\r\n";
-	}
-	std::stringstream contentLength;
-	contentLength << _body.length();
-	response += "Content-Length: " + contentLength.str() + "\r\n\r\n";
-	response += _body; // Don't forget to add the body itself
-
-	return response;
+	std::ostringstream	response;
+	response << "HTTP/1.1 " << _statusCode << " " << _statusMessage << "\r\n"; // add error handling
+	response << "Content-Type: " << "text/html" << "\r\n";
+	response << "Content-Length: " << _body.size() << "\r\n";
+	response << "Connection: close\r\n\r\n";
+	response << _body;
+	return response.str();
 }
 
 std::string		Response::getStatusMessage() const
@@ -64,6 +76,7 @@ std::string		Response::getStatusMessage() const
 	switch (_statusCode)
 	{
 		case 200: return "OK";
+		case 300: return "Found";
 		case 404: return "Not Found";
 		case 405: return "Method Not Allowed";
 		case 500: return "Internal Server Error";

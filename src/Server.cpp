@@ -10,14 +10,46 @@
 /*      ###   ########.de      www     www      eeeeeee    bbbbbbbbb          */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/Server.hpp"
+
+#include "Server.hpp"
 
 
-Server::Server(const std::string& configPath) : _config(configPath)
+//Server takes config file name and it initialize the Constructor for ConfigParser
+Server::Server(const std::string& configPath)
+: _config(configPath)
 {
 	setupServer();
+	createEpoll();
 }
 
+// Create epoll instance
+void	Server::createEpoll()
+{
+	_epollFd = epoll_create(1024);
+	if (_epollFd == -1)
+	{
+		//Logger::log("Failed to create epoll instance.");
+		throw std::runtime_error("Error: epoll_create failed.");
+	}
+	// Register all sockets with epoll
+	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
+	{
+		int sockfd = *it;
+		struct epoll_event event;
+		event.events = EPOLLIN;
+		event.data.fd = sockfd;
+		if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, sockfd, &event) == -1)
+		{
+			//Logger::log("epoll_ctl: EPOLL_CTL_ADD failed in createEpoll.");
+			std::cerr << "epoll_ctl: EPOLL_CTL_ADD failed in createEpoll." << std::endl;
+			close(sockfd);
+		}
+	}
+
+	std::cout << "Server setup complete." << std::endl;
+}
+
+//Setup socket, bind and listen: 
 void	Server::setupServer()
 {
 	std::stack<int>	ports = _config.getPorts();
@@ -29,7 +61,7 @@ void	Server::setupServer()
 		_serverFd = socket(AF_INET, SOCK_STREAM, 0);
 		if (_serverFd < 0)
 		{
-			Logger::log("Failed: SOCKET!");
+			//Logger::log("Failed: SOCKET!");
 			std::cerr << "Error: Socket FT." <<std::endl;
 			continue;
 		}
@@ -40,44 +72,20 @@ void	Server::setupServer()
 		
 		if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
 		{
-			Logger::log("Failed: BIND!");
+			//Logger::log("Failed: BIND!");
 			throw std::runtime_error("Error: Bind FT.");
 		}
-		if (listen(_serverFd, 10) < 0)
+		if (listen(_serverFd, 128) < 0)
 		{
-			Logger::log("Failed: LISTEN!");
+			//Logger::log("Failed: LISTEN!");
 			throw std::runtime_error("Error: Listen FT.");
 		}
 		
 		_sockets.push_back(_serverFd);
 
-		Logger::logInt("Failed: SOCKET!", port);
+		//Logger::logInt("Failed: SOCKET!", port);
 		std::cout << "Listening on port " << port << std::endl;
 	}
-
-	// Create epoll instance
-	_epollFd = epoll_create(1024);
-	if (_epollFd == -1)
-	{
-		Logger::log("Failed to create epoll instance.");
-		throw std::runtime_error("Error: epoll_create failed.");
-	}
-
-	// Register all sockets with epoll
-	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
-	{
-		int sockfd = *it;
-		struct epoll_event event;
-		event.events = EPOLLIN;
-		event.data.fd = sockfd;
-		if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, sockfd, &event) == -1)
-		{
-			Logger::log("epoll_ctl: EPOLL_CTL_ADD failed");
-			close(sockfd);
-		}
-	}
-	
-	std::cout << "Server setup complete." << std::endl;
 }
 
 Server::~Server()
@@ -117,74 +125,108 @@ void Server::handleEvents()
 		}
 		else
 		{
-			std::map<int, Client*>::iterator it = _clients.find(eventFd);
-			it = _clients.find(eventFd);
-			if (it != _clients.end())
+			if (events[i].events & (EPOLLERR | EPOLLHUP | EPOLLRDHUP))  
+			{
+				// Client disconnected or error occurred
+				removeClient(eventFd);
+				continue;
+			}
+			if (events[i].events & EPOLLIN)  // If the socket is ready for reading
 			{
 				handleClientRequest(eventFd);
 			}
-			else
+			else if (events[i].events & EPOLLOUT)  // If the socket is ready for writing
 			{
-				Logger::logInt("Error: No client foud for FD ", eventFd);
-				std::cout << "Error: No client foud for FD " << eventFd << std::endl;
+				sendClientResponse(eventFd);
 			}
 		}
 	}
 }
 
+void Server::sendClientResponse(int clientFd)
+{
+	Client* client = _clients[clientFd];
+	if (!client)
+	{ 
+		//Logger::logInt("Error: client not found FD ", clientFd);
+		// std::cout << "Error: client not found FD " << clientFd << " removed." << std::endl;
+		return;
+	}
+
+	// Get the response data to send
+	std::string response = client->getRequest();
+
+	// Send data in chunks if needed
+	if (!client->sendData(response))
+	{
+		//Logger::logInt("Error: send() failed for FD ", clientFd);
+		removeClient(clientFd);  // Remove client if sending failed
+		return;
+	}
+
+	// If full response was sent, remove client from EPOLLOUT
+	if ((size_t)client->gettotalRecevied() == response.size())
+	{
+		struct epoll_event event;
+		event.events = EPOLLIN;  // Remove EPOLLOUT, keep EPOLLIN
+		event.data.fd = clientFd;
+		if (epoll_ctl(_epollFd, EPOLL_CTL_MOD, clientFd, &event) == -1)
+		{
+			//Logger::log("epoll_ctl: EPOLL_CTL_MOD inside sendClientResponse failed");
+			std::cerr << "epoll_ctl: EPOLL_CTL_MOD inside sendClientResponse failed" << std::endl;
+			close(clientFd);
+			return;
+		}
+	}
+}
+
+
 void Server::acceptClient(int serverFd)
 {
-    int newFd = accept(serverFd, (struct sockaddr*)&_address, &_addrlen);
-    if (newFd < 0)
-    {
-        Logger::log("Failed: ACCEPT!");
-        std::cerr << "Accept failed on socket " << serverFd << std::endl;
-        return;
-    }
+	int newFd = accept(serverFd, (struct sockaddr*)&_address, &_addrlen);
+	if (newFd < 0)
+	{
+		//Logger::log("Failed: ACCEPT!");
+		std::cerr << "Accept failed on socket " << serverFd << std::endl;
+		return;
+	}
+	//Logger::logInt("Accepted client with fd: ", newFd);
+	// std::cout << "Accepted client with fd: " << newFd << std::endl;
+	_clients[newFd] = new Client(newFd);
 
-    std::ostringstream oss;
-    oss << "Accepted client with fd: " << newFd;
-    Logger::log(oss.str());
-    std::cout << oss.str() << std::endl;
-
-    _clients[newFd] = new Client(newFd);
-
-    struct epoll_event clientEvent;
-    clientEvent.events = EPOLLIN;
-    clientEvent.data.fd = newFd;
-    if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent) == -1)
-    {
-        perror("epoll_ctl: EPOLL_CTL_ADD failed");
-        close(newFd);
-        return;
-    }
+	struct epoll_event clientEvent;
+	clientEvent.events = EPOLLIN | EPOLLOUT;
+	clientEvent.data.fd = newFd;
+	if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, newFd, &clientEvent) == -1)
+	{
+		//Logger::log("epoll_ctl: EPOLL_CTL_ADD failed in acceptClient.");
+		std::cerr << "epoll_ctl: EPOLL_CTL_ADD failed in acceptClient." << std::endl;
+		close(newFd);
+		return;
+	}
 }
 
 
 void Server::removeClient(int fd)
 {
-	std::ostringstream oss;
-	oss << "Client " << fd << " removed.";
-	Logger::log(oss.str());
-	std::cout << "Client " << fd << " removed." << std::endl;
+	//Logger::logInt("Client removed FD: ", fd);
+	// std::cout << "Client " << fd << " removed." << std::endl;
 	if (_clients.find(fd) != _clients.end())
 	{
 		delete _clients[fd];
 		_clients.erase(fd);
 	}
+	epoll_ctl(_epollFd, EPOLL_CTL_DEL, fd, NULL);  // Remove from epoll
 	close(fd);
 }
 
-// changed
 void Server::handleClientRequest(int clientFd)
 {
 	Client* client = _clients[clientFd];
 	if (!client)
 	{ 
-		std::ostringstream oss;
-		oss << "Error: client not found FD " << clientFd << " removed.";
-		Logger::log(oss.str());
-		std::cout << "Error: client not found FD " << clientFd << " removed." << std::endl;
+		//Logger::logInt("Error: client not found FD ", clientFd);
+		// std::cout << "Error: client not found FD " << clientFd << " removed." << std::endl;
 		return;
 	}
 	if (!client->readData())
@@ -193,32 +235,57 @@ void Server::handleClientRequest(int clientFd)
 		return;
 	}
 	std::string requestData = client->getRequest();
-    std::ostringstream oss;
-    oss << "Raw HTTP Request from client " << clientFd << ":\n" << requestData;
-    Logger::log(oss.str());
-    std::cout << oss.str() << std::endl;
 
-    Request request;
-    request.parseRequest(requestData);
-    Response response = _router.routeRequest(request);
-    std::string httpResponse = response.buildResponse();
-    std::ostringstream oss1;
-    oss1 << "Sending response:\n" << httpResponse;
-    Logger::log(oss1.str());
-    std::cout << oss1.str() << std::endl;
+	//Logger::logInt("Raw HTTP Request from client ", clientFd );
+	//Logger::log(requestData);
+	
+	// Parse request line (e.g., "GET /index.html HTTP/1.1")
+	Request request(_config);
+	request.parseRequest(requestData);
 
-    std::string path = request.getPath();
-    if (request.getMethod() == "GET")
-        RequestHandler::handle_get(path, clientFd, _config);
-    else if (request.getMethod() == "POST")
-        RequestHandler::handle_post(path, clientFd, client->getRequest(), client->gettotalRecevied(), _config);
-    else if (request.getMethod() == "DELETE")
-        RequestHandler::handle_delete(path, clientFd, _config);
-    std::cout << "Response sent. Server should keep running..." << httpResponse << std::endl;
+	Response response = _router.routeRequest(request, _config);
 
-	send(clientFd, httpResponse.c_str(), httpResponse.size(), 0);
-    std::ostringstream oss2;
-    oss2 << "Response sent. Server should keep running...";
-    Logger::log(oss2.str());
-    std::cout << oss2.str() << std::endl;
+	std::string httpResponse = response.buildResponse();
+
+	//Logger::logStr("Sending response:\n", httpResponse);
+	// std::cout << "Sending response:\n" << httpResponse << std::endl;
+
+	std::string path = request.getPath();
+	//Logger::logStr("Request PATH: ", path);
+
+	if (RequestHandler::isCGIRequest(path))
+	{
+		if (!RequestHandler::handleCGIRequest(*client, request))
+		{
+			removeClient(clientFd);
+			return;
+		}
+	}
+	else if (request.getMethod() == "POST")
+	{
+		if (!RequestHandler::handle_post(request, *client))
+		{
+			removeClient(clientFd);
+			return;
+		}
+
+	}
+	else if (request.getMethod() == "DELETE")
+	{
+		if (!RequestHandler::handle_delete(request, response, *client))
+		{
+			removeClient(clientFd);
+			return;
+		}
+	}
+	//not sure if must if or else if
+	if (request.getMethod() == "GET")
+	{
+		if (!client->sendData(httpResponse))//added this part*****************---->
+		{
+			//Logger::logInt("Error: send() failed for FD ", clientFd);
+			removeClient(clientFd);  // Remove client if sending failed
+			return;
+		}
+	}
 }

@@ -1,2 +1,9 @@
+siege-4.1.7/
+siege-latest.tar.gz
+sessions.json
+www/cgi-bin/sessions.json
 server.log
-www/uploads/*
+webserv
+src/*.o
+.vscode
+cookie.dump

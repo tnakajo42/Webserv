@@ -1,9 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>----My Web Server----</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Image Vault</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* body {
+            background: linear-gradient(135deg, #ffffff, #f4f4f4);
+            color: #000;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        } */
+
+
+        body {
+            background: linear-gradient(135deg, #ffffff, #f4f4f4);
+            color: #000;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            max-width: 150px;
+            border-radius: 10px;
+        }
+
+        .remove-btn {
+            margin-top: 5px;
+            display: block;
+            background: #ff6666;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to my C+++ web server!</h1>
+    <div class="container">
+        <h1>TAKA_SAN and CARLOS WEBSITE</h1>
+        
+        <div class="section">
+            <h2>About Us</h2>
+            <p>Welcome to Cool Image Vault! We store and showcase your favorite images with a stylish interface.</p>
+        </div>
+
+        <div class="section">
+            <h2>Upload Zone</h2>
+            <input type="file" id="fileInput" accept="image/*" onchange="previewImage()">
+            <button onclick="uploadFile()">Upload Now</button>
+            <div class="preview-container">
+                <img id="preview" alt="Image preview" style="display: none; max-width: 200px; margin-top: 10px;">
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Gallery</h2>
+            <div id="gallery" class="gallery"></div>
+        </div>
+    </div>
+
+    <script>
+        function previewImage() {
+            const fileInput = document.getElementById('fileInput');
+            const preview = document.getElementById('preview');
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert('Please select an image!');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                addImageToGallery(e.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function addImageToGallery(src) {
+            const gallery = document.getElementById('gallery');
+            const div = document.createElement('div');
+            div.innerHTML = `<img src="${src}" alt="Uploaded Image"><button class="remove-btn" onclick="removeImage(this)">Remove</button>`;
+            gallery.appendChild(div);
+        }
+
+        function removeImage(button) {
+            button.parentElement.remove();
+        }
+    </script>
 </body>
 </html>
+

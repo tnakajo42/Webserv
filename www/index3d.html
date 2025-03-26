@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool 3D Website</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #1e1e1e, #3a0a6b);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        #canvas-container {
+            width: 80%;
+            height: 70%;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Click and Drag to Move!</h1>
+    <div id="canvas-container"></div>
+
+    <!-- Load Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        
+        // Set renderer size and append to the container
+        const container = document.getElementById('canvas-container');
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        // Create a cube
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        // Position the camera
+        camera.position.z = 5;
+
+        // Mouse interaction variables
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        // Mouse down event
+        container.addEventListener('mousedown', (event) => {
+            isDragging = true;
+        });
+
+        // Mouse up event
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Mouse move event
+        container.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                const deltaMove = {
+                    x: event.offsetX - previousMousePosition.x,
+                    y: event.offsetY - previousMousePosition.y
+                };
+
+                // Rotate the cube based on mouse movement
+                cube.rotation.y += deltaMove.x * 0.01; // Horizontal drag
+                cube.rotation.x += deltaMove.y * 0.01; // Vertical drag
+            }
+            previousMousePosition = { x: event.offsetX, y: event.offsetY };
+        });
+
+        // Animation function
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isDragging) {
+                // Optional: Add slight auto-rotation when not dragging
+                cube.rotation.x += 0.005;
+                cube.rotation.y += 0.005;
+            }
+            renderer.render(scene, camera);
+        }
+
+        // Adjust renderer size on window resize
+        window.addEventListener('resize', () => {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
+
+        // Start the animation
+        animate();
+    </script>
+</body>
+</html>
